@@ -14,7 +14,7 @@
       "cuisineId": "1",
       "dietId": "3",
       "difficultyId": "3",
-      "image": "/uploads/carbonara-horizontal-square640-v2.jpg"
+      "image": "/uploads/carbonara-horizontal-square640-v2.webp"
     },
     {
       "id": "2",
@@ -46,7 +46,7 @@
       "cuisineId": "1",
       "dietId": "3",
       "difficultyId": "2",
-      "image": "/uploads/tiramisu.jpg"
+      "image": "/uploads/tiramisu.webp"
     },
     {
       "id": "4",
@@ -78,7 +78,7 @@
       "cuisineId": "3",
       "dietId": "2",
       "difficultyId": "1",
-      "image": "/uploads/Beef-Tacos.jpg"
+      "image": "/uploads/Beef-Tacos.webp"
     },
     {
       "id": "6",
@@ -94,7 +94,7 @@
       "cuisineId": "4",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/46822-indian-chicken-curry.jpg"
+      "image": "/uploads/46822-indian-chicken-curry.webp"
     },
     {
       "id": "7",
@@ -110,7 +110,7 @@
       "cuisineId": "5",
       "dietId": "2",
       "difficultyId": "3",
-      "image": "/uploads/Sushi-Rolls-Maki-Sushi-–-Hosomaki-1106-II.jpg"
+      "image": "/uploads/Sushi-Rolls-Maki-Sushi-–-Hosomaki-1106-II.webp"
     },
     {
       "id": "8",
@@ -142,7 +142,7 @@
       "cuisineId": "7",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/french-onion-soup-1.jpg"
+      "image": "/uploads/french-onion-soup-1.webp"
     },
     {
       "id": "10",
@@ -158,7 +158,7 @@
       "cuisineId": "8",
       "dietId": "2",
       "difficultyId": "1",
-      "image": "/uploads/greek-salad-index-642f292397bbf.jpg"
+      "image": "/uploads/greek-salad-index-642f292397bbf.webp"
     },
     {
       "id": "11",
@@ -174,7 +174,7 @@
       "cuisineId": "9",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/1200px-Phat_Thai_kung_Chang_Khien_street_stall.jpg"
+      "image": "/uploads/1200px-Phat_Thai_kung_Chang_Khien_street_stall.webp"
     },
     {
       "id": "12",
@@ -190,7 +190,7 @@
       "cuisineId": "4",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/butter-chicken-ac2ff98.jpg"
+      "image": "/uploads/butter-chicken-ac2ff98.webp"
     },
     {
       "id": "13",
@@ -206,7 +206,7 @@
       "cuisineId": "10",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/Fish_and_chips_blackpool.jpg"
+      "image": "/uploads/Fish_and_chips_blackpool.webp"
     },
     {
       "id": "14",
@@ -222,7 +222,7 @@
       "cuisineId": "11",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/16311-simple-beef-stroganoff-DDMFS-4x3.jpg"
+      "image": "/uploads/16311-simple-beef-stroganoff-DDMFS-4x3.webp"
     },
     {
       "id": "15",
@@ -238,7 +238,7 @@
       "cuisineId": "1",
       "dietId": "3",
       "difficultyId": "2",
-      "image": "/uploads/eggplant-parmesan.jpg"
+      "image": "/uploads/eggplant-parmesan.webp"
     },
     {
       "id": "16",
@@ -302,7 +302,7 @@
       "cuisineId": "1",
       "dietId": "2",
       "difficultyId": "2",
-      "image": "/uploads/Chicken-Alfredo-bowl.jpg"
+      "image": "/uploads/Chicken-Alfredo-bowl.webp"
     },
     {
       "id": "20",
@@ -334,7 +334,7 @@
       "cuisineId": "2",
       "dietId": "2",
       "difficultyId": "1",
-      "image": "/uploads/best-homemade-pancakes-index-640775a2dbad8.jpg"
+      "image": "/uploads/best-homemade-pancakes-index-640775a2dbad8.webp"
     },
     {
       "id": "22",
@@ -350,7 +350,7 @@
       "cuisineId": "1",
       "dietId": "3",
       "difficultyId": "1",
-      "image": "/uploads/Pasta-Primavera-f.jpg"
+      "image": "/uploads/Pasta-Primavera-f.webp"
     }
   ],
   "comments": [

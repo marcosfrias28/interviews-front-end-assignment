@@ -8,6 +8,8 @@ import Logo from './components/icons/Logo.jsx'
 
 const ENDPOINT = 'http://localhost:8080'
 
+const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
+
 function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
 }
@@ -34,18 +36,21 @@ export function HomePage () {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     axios.get(`${ENDPOINT}/recipes`).then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
   }, [])
+
+  const shuffledRecipes = shuffle(recipes)
 
   return (
     <Layout>
       <h1 className='text-4xl font-bold text-center mt-10'>Explore our best Recipes!</h1>
-      <section className='grid grid-cols-12 gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
+      <section className='grid grid-cols-12 gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all place-content-center'>
         {
-          loading && <div className=' w-36 h-36 border-black border-t-4 border-b-4 rounded-full animate-spin' />
+          loading && <div className='w-36 h-36 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto' />
         }
         {
-      !loading && recipes.length > 0 && recipes.map((recipe, i) => {
+      !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
         if (i > 11) return []
         const { id, name, ingredients, instructions, cuisineId, dietId, difficultyId, image } = recipe
         return (
