@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SearchIcon from './components/icons/search'
 import { Toaster, toast } from 'sonner'
-import DifficultyButton from './components/icons/ui/DificultyButton'
+import DifficultyButton from './components/ui/DificultyButton.jsx'
 
 function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
@@ -11,19 +11,16 @@ function isActive ({ isActive }) {
 
 export function HomePage () {
   const [recipes, setRecipes] = useState([])
-  const [difficulties, setDifficulties] = useState([])
   const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(1)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/difficulties').then((response) => setDifficulties(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
     axios.get('http://localhost:8080/recipes').then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
   }, [])
 
   return (
     <Layout>
-      <h1>Home Page</h1>
-      <section className='grid grid-cols-12 gap-3 md:gap-5 lg:gap-10 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
+      <h1 className='text-4xl font-bold text-center mt-10'>Explore our best Recipes!</h1>
+      <section className='grid grid-cols-12 gap-3 md:gap-5 lg:gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
         {
           loading && <div className=' w-36 h-36 border-black border-t-4 border-b-4 rounded-full animate-spin' />
         }
@@ -32,13 +29,23 @@ export function HomePage () {
         if (i > 11) return []
         const { id, name, ingredients, instructions, cuisineId, dietId, difficultyId, image } = recipe
         return (
-          <article key={id} className=' col-span-12 sm:col-span-6 md:col-span-4'>
-            <div className='w-full h-1/2 overflow-hidden'>
-              <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
+          <article key={id} className='col-span-12 hover:shadow-sm sm:col-span-6 md:col-span-4'>
+            <h2 className='font-semibold text-2xl font-sans mb-2 text-center'>{name}</h2>
+            <div className='w-full rounded-lg h-full max-h-96 overflow-hidden'>
+              <Link to={`/recipes/${id}`}>
+                <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
+              </Link>
             </div>
-            <h2>{name}</h2>
-            <p>{ingredients}</p>
-            <p>{instructions}</p>
+            <div className='flex justify-between'>
+              <ul className='w-1/2'>
+                <li className='text-center font-medium text-sm italic'>Ingredients</li>
+                {ingredients.map((ingredient, i) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
+              </ul>
+              <div className='w-1/2'>
+                <h3 className='font-medium text-sm italic text-center'> instructions</h3>
+                <p>{instructions}</p>
+              </div>
+            </div>
             <p>{cuisineId}</p>
             <p>{dietId}</p>
             <DifficultyButton difficulty={difficultyId} />
@@ -47,10 +54,6 @@ export function HomePage () {
       })
     }
       </section>
-
-      <button className='px-8 py-2 rounded-full bg-red-500 text-white transition-colors active:bg-red-800'>
-        Load More
-      </button>
     </Layout>
   )
 }
@@ -83,7 +86,7 @@ export function Welcome () {
 
           <Link
             to='/home'
-            className='inline-flex self-center items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-500 dark:bg-gray-700 dark:focus:ring-gray-800'
+            className='inline-flex px-8 py-2 rounded-full hover:scale-105 transition-all bg-red-500 text-white active:bg-red-800 items-center justify-center text-bas font-medium text-center'
           >
             Explore Recipes
           </Link>
@@ -220,7 +223,9 @@ export function Layout ({ children }, props) {
         </nav>
       </header>
 
-      <main className='min-h-dvh'>{children}</main>
+      <main className='min-h-dvh [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#f6cb54_100%)]'>
+        {children}
+      </main>
 
       <footer className='bg-white rounded-lg shadow dark:bg-gray-200 relative bottom-0 w-full'>
         <div className='w-full mx-auto md:flex p-4 md:items-center md:justify-between'>
