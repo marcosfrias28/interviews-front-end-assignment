@@ -1,12 +1,32 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SearchIcon from './components/icons/search'
 import { Toaster, toast } from 'sonner'
 import DifficultyButton from './components/ui/DificultyButton.jsx'
+import Logo from './components/icons/Logo.jsx'
+
+const ENDPOINT = 'http://localhost:8080'
 
 function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
+}
+
+export function Details () {
+  const { id } = useParams()
+  const [currentRecipe, setCurrentRecipe] = useState([])
+
+  useEffect(() => {
+    axios.get(`${ENDPOINT}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
+  }, [])
+
+  console.log(currentRecipe)
+
+  return (
+    <Layout>
+      <h1>{currentRecipe.name}</h1>
+    </Layout>
+  )
 }
 
 export function HomePage () {
@@ -14,13 +34,13 @@ export function HomePage () {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/recipes').then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
+    axios.get(`${ENDPOINT}/recipes`).then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
   }, [])
 
   return (
     <Layout>
       <h1 className='text-4xl font-bold text-center mt-10'>Explore our best Recipes!</h1>
-      <section className='grid grid-cols-12 gap-3 md:gap-5 lg:gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
+      <section className='grid grid-cols-12 gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
         {
           loading && <div className=' w-36 h-36 border-black border-t-4 border-b-4 rounded-full animate-spin' />
         }
@@ -29,7 +49,7 @@ export function HomePage () {
         if (i > 11) return []
         const { id, name, ingredients, instructions, cuisineId, dietId, difficultyId, image } = recipe
         return (
-          <article key={id} className='col-span-12 hover:shadow-sm sm:col-span-6 md:col-span-4'>
+          <article key={id} className='col-span-12 hover:shadow-sm md:col-span-6 xl:col-span-4'>
             <h2 className='font-semibold text-2xl font-sans mb-2 text-center'>{name}</h2>
             <div className='w-full rounded-lg h-full max-h-96 overflow-hidden'>
               <Link to={`/recipes/${id}`}>
@@ -100,17 +120,13 @@ export function Layout ({ children }, props) {
   return (
     <>
       <header>
-        <nav className='bg-white border-gray-200 dark:bg-gray-200'>
-          <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
+        <nav>
+          <div className='max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto p-4 gap-4'>
             <Link
               to='/home'
               className='flex items-center space-x-3 rtl:space-x-reverse'
             >
-              <img
-                src='recipe-svgrepo-com.svg'
-                className='h-8'
-                alt='Flowbite Logo'
-              />
+              <Logo />
               <span className='self-center text-2xl font-semibold whitespace-nowrap'>
                 RecipeBook
               </span>
@@ -121,7 +137,7 @@ export function Layout ({ children }, props) {
                 data-collapse-toggle='navbar-search'
                 aria-controls='navbar-search'
                 aria-expanded='false'
-                className='md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1'
+                className='md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-2.5 me-1'
               >
                 <SearchIcon />
                 <span className='sr-only'>Search</span>
@@ -131,10 +147,11 @@ export function Layout ({ children }, props) {
                   <SearchIcon />
                   <span className='sr-only'>Search icon</span>
                 </div>
+                {/* DESKTOP SEARCH BAR */}
                 <input
                   type='text'
                   id='search-navbar'
-                  className='transition-all block md:min-w-72 lg:min-w-96 w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
+                  className='transition-all block sm:min-w-40 md:min-w-52 lg:min-w-60 xl:min-w-96 w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
                   placeholder='Search...'
                 />
               </div>
@@ -185,14 +202,15 @@ export function Layout ({ children }, props) {
                     />
                   </svg>
                 </div>
+                {/* MOBILE SEARCH BAR */}
                 <input
                   type='text'
                   id='search-navbar'
-                  className='transition-all block md:min-w-72 lg:min-w-96 w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
+                  className='transition-all block w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
                   placeholder='Search...'
                 />
               </div>
-              <ul className='flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 '>
+              <ul className='flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 '>
                 <li>
                   <NavLink
                     to='/home'
@@ -203,16 +221,23 @@ export function Layout ({ children }, props) {
                 </li>
                 <li>
                   <NavLink
+                    data-popover-target='popover-default'
                     to='/search'
                     className={isActive}
                   >
                     Search
                   </NavLink>
+                  <div data-popover id='popover-default' role='tooltip' class='absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0'>
+                    <div class='px-3 py-2'>
+                      <p>Advanced research</p>
+                    </div>
+                    <div data-popper-arrow />
+                  </div>
                 </li>
                 <li className=' hover:scale-105 transition-all'>
                   <NavLink
                     to='/add-recipe'
-                    className='px-8 py-2 rounded-full bg-red-500 text-white transition-colors active:bg-red-800'
+                    className='px-5 lg:px-8 py-2 rounded-full bg-red-500 text-white active:bg-red-800'
                   >
                     Add Recipe
                   </NavLink>
@@ -228,12 +253,12 @@ export function Layout ({ children }, props) {
       </main>
 
       <footer className='bg-white rounded-lg shadow dark:bg-gray-200 relative bottom-0 w-full'>
-        <div className='w-full mx-auto md:flex p-4 md:items-center md:justify-between'>
+        <div className='w-full max-w-screen-xl mx-auto md:flex p-4 md:items-center md:justify-between'>
           <span className='text-sm text-gray-500 sm:text-center dark:text-gray-400'>
             © 2023{' '}
-            <a href='https://flowbite.com/' className='hover:underline'>
-              Flowbite™
-            </a>
+            <Link to='/' className='hover:underline'>
+              Welcome
+            </Link>
             . All Rights Reserved.
           </span>
           <ul className='flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0'>
