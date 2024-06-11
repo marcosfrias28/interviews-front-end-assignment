@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SearchIcon from './components/icons/search'
+import { Toaster, toast } from 'sonner'
 
 function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
@@ -14,7 +15,7 @@ export function HomePage () {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/ingredients').then((response) => setIngredients(response.data)).finally(() => setLoading(false))
+    axios.get('http://localhost:8080/ingredients').then((response) => setIngredients(response.data)).catch(() => {}).finally(() => setLoading(false))
     axios.get('http://localhost:8080/recipes').then((response) => setRecipes(response.data)).finally(() => setLoading(false))
   }, [])
 
@@ -253,6 +254,7 @@ export function Layout ({ children }, props) {
           </ul>
         </div>
       </footer>
+      <Toaster />
     </>
   )
 }
