@@ -12,6 +12,7 @@ function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
 }
 
+<<<<<<< HEAD
 export function Details () {
   const { id } = useParams()
   const [currentRecipe, setCurrentRecipe] = useState([])
@@ -29,6 +30,13 @@ export function Details () {
   )
 }
 
+=======
+export function Details() {
+  return (  );
+}
+
+
+>>>>>>> refs/remotes/origin/main
 export function HomePage () {
   const [recipes, setRecipes] = useState([])
   const [loading, setLoading] = useState(true)
