@@ -9,6 +9,11 @@ function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
 }
 
+export function Details() {
+  return (  );
+}
+
+
 export function HomePage () {
   const [recipes, setRecipes] = useState([])
   const [loading, setLoading] = useState(true)

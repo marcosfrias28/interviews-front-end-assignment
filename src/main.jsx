@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import { HomePage, SearchPage, Welcome } from './App.jsx'
+import { Details, HomePage, SearchPage, Welcome } from './App.jsx'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
