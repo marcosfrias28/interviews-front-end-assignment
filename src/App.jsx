@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SearchIcon from './components/icons/search'
 import { Toaster, toast } from 'sonner'
+import DifficultyButton from './components/icons/ui/DificultyButton'
 
 function isActive ({ isActive }) {
   return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
@@ -10,19 +11,19 @@ function isActive ({ isActive }) {
 
 export function HomePage () {
   const [recipes, setRecipes] = useState([])
-  const [ingredients, setIngredients] = useState([])
+  const [difficulties, setDifficulties] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/ingredients').then((response) => setIngredients(response.data)).catch(() => {}).finally(() => setLoading(false))
-    axios.get('http://localhost:8080/recipes').then((response) => setRecipes(response.data)).finally(() => setLoading(false))
+    axios.get('http://localhost:8080/difficulties').then((response) => setDifficulties(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
+    axios.get('http://localhost:8080/recipes').then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
   }, [])
 
   return (
     <Layout>
       <h1>Home Page</h1>
-      <section className='grid grid-cols-12 gap-x-10 max-w-screen-2xl mx-auto'>
+      <section className='grid grid-cols-12 gap-3 md:gap-5 lg:gap-10 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all'>
         {
           loading && <div className=' w-36 h-36 border-black border-t-4 border-b-4 rounded-full animate-spin' />
         }
@@ -40,7 +41,7 @@ export function HomePage () {
             <p>{instructions}</p>
             <p>{cuisineId}</p>
             <p>{dietId}</p>
-            <p>{difficultyId}</p>
+            <DifficultyButton difficulty={difficultyId} />
           </article>
         )
       })
@@ -254,7 +255,7 @@ export function Layout ({ children }, props) {
           </ul>
         </div>
       </footer>
-      <Toaster />
+      <Toaster richColors position='bottom-center' />
     </>
   )
 }
