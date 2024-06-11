@@ -1,10 +1,16 @@
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import { HomePage, SearchPage, Welcome } from './App.jsx'
 import './index.css'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <App />
+    <Routes>
+      <Route path='/' element={<Welcome />} />
+      <Route path='/home' element={<HomePage />} />
+      <Route path='/search' element={<SearchPage />} />
+      <Route path='*' element={<h1>404</h1>} />
+      <></>
+    </Routes>
   </BrowserRouter>
 )
