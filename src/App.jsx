@@ -6,8 +6,9 @@ import { Toaster, toast } from 'sonner'
 import DifficultyButton from './components/ui/DifficultyButton.jsx'
 import Logo from './components/icons/Logo.jsx'
 import { Flag } from './components/ui/FlagIcons.jsx'
+import { useRecipeStore } from './store/recipeStore.ts'
 
-const ENDPOINT = import.meta.env.VITE_ENDPOINT_BACKEND
+export const ENDPOINT = import.meta.env.VITE_ENDPOINT_BACKEND
 const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
 
 export function Details () {
@@ -26,14 +27,11 @@ export function Details () {
 }
 
 export function HomePage () {
-  const [recipes, setRecipes] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [cuisines, setCuisines] = useState([])
+  const { loading, recipes, setFilter, getAllRecipes, cuisines, getCuisines } = useRecipeStore(state => state)
 
   useEffect(() => {
-    setLoading(true)
-    axios.get(`${ENDPOINT}/cuisines`).then((response) => setCuisines(response.data)).catch((e) => toast.error('Something went wrong'))
-    axios.get(`${ENDPOINT}/recipes`).then((response) => setRecipes(response.data)).catch((e) => toast.error('Something went wrong')).finally(() => setLoading(false))
+    getAllRecipes()
+    getCuisines()
   }, [])
 
   const shuffledRecipes = shuffle(recipes)
@@ -50,10 +48,10 @@ export function HomePage () {
         }
         {
         !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
-          if (i > 11) return []
+          if (i > 11) return [] // Only show 12 recipes at a time
+          if (!recipe.name) return toast.error('Something went wrong')
           const { id, name, cuisineId, ingredients, instructions, difficultyId, image } = recipe
           const cuisineName = cuisines.find(cuisine => cuisine.id === cuisineId).name
-
           return (
             <article key={id} className='col-span-12 md:col-span-6 xl:col-span-4'>
               <div className='relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4'>
@@ -61,10 +59,10 @@ export function HomePage () {
                   <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
                 </Link>
                 <div className='absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2'>
-                  <span className=' scale-75 flex items-center text-nowrap justify-center gap-2 text-base font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
+                  <span className='flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
                     <Flag nationality={cuisineId} /> {cuisineName}
                   </span>
-                  <span className=' scale-75 flex items-center justify-center gap-2 text-base font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
+                  <span className='flex items-center justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
                     Difficulty: <DifficultyButton difficulty={difficultyId} />
                   </span>
                 </div>
@@ -154,7 +152,7 @@ export function Layout ({ children }, props) {
               <SearchIcon />
               <span className='sr-only'>Search</span>
             </button>
-            <div className='relative hidden md:block w-full'>
+            <form className='relative hidden md:block w-full'>
               <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
                 <SearchIcon />
                 <span className='sr-only'>Search icon</span>
@@ -166,7 +164,15 @@ export function Layout ({ children }, props) {
                 className='block p-2 ps-10 text-sm w-full text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
                 placeholder='Search...'
               />
-            </div>
+              <div className='absolute inset-y-0 end-0 bg-transparent '>
+                <select onChange={(e) => setFilter} aria-placeholder='Search by...' name='' id='' className='text-sm w-40 h-full bg-transparent border border-black/20 rounded-tr-full rounded-br-full outline-0 focus:ring-0 focus:ring-yellow-500 focus:border-yellow-500'>
+                  <option defaultValue />
+                  <option value=''>Cuisine</option>
+                  <option value=''>Difficulty</option>
+                  <option value=''>Dietary</option>
+                </select>
+              </div>
+            </form>
             <button
               data-collapse-toggle='navbar-search'
               type='button'
