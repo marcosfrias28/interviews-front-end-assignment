@@ -3,8 +3,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SearchIcon from './components/icons/search'
 import { Toaster, toast } from 'sonner'
-import DifficultyButton from './components/ui/DificultyButton.jsx'
+import DifficultyButton from './components/ui/DifficultyButton.jsx'
 import Logo from './components/icons/Logo.jsx'
+import { Flag } from './components/ui/FlagIcons.jsx'
 
 const ENDPOINT = import.meta.env.VITE_ENDPOINT_BACKEND
 const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
@@ -69,6 +70,7 @@ export function HomePage () {
               </div>
               <p>{cuisineId}</p>
               <p>{dietId}</p>
+              <Flag nationality={cuisineId} />
               <DifficultyButton difficulty={difficultyId} />
             </article>
           )
@@ -215,6 +217,7 @@ export function Layout ({ children }, props) {
                 <li>
                   <NavLink
                     to='/home'
+                    className={({ isActive }) => (isActive ? '' : 'text-gray-400')}
                   >
                     <div>
                       <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-home'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M5 12l-2 0l9 -9l9 9l-2 0' /><path d='M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7' /><path d='M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6' /></svg>
@@ -223,6 +226,7 @@ export function Layout ({ children }, props) {
                 </li>
                 <li>
                   <NavLink
+                    className={({ isActive }) => (isActive ? '' : 'text-gray-400')}
                     data-popover-target='popover-default'
                     to='/search'
                   >
