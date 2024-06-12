@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { HomePage, SearchPage, Welcome, Details } from './App.jsx'
 import './index.css'
+import 'flowbite'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

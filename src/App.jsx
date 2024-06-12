@@ -6,13 +6,8 @@ import { Toaster, toast } from 'sonner'
 import DifficultyButton from './components/ui/DificultyButton.jsx'
 import Logo from './components/icons/Logo.jsx'
 
-const ENDPOINT = 'http://localhost:8080'
-
+const ENDPOINT = import.meta.env.VITE_ENDPOINT_BACKEND
 const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
-
-function isActive ({ isActive }) {
-  return isActive ? 'bg-yellow-200 pointer-events-none px-2 py-1 rounded-full' : 'rounded-full hover:bg-yellow-50 transition-colors px-2 py-1'
-}
 
 export function Details () {
   const { id } = useParams()
@@ -21,8 +16,6 @@ export function Details () {
   useEffect(() => {
     axios.get(`${ENDPOINT}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
   }, [])
-
-  console.log(currentRecipe)
 
   return (
     <Layout>
@@ -44,39 +37,42 @@ export function HomePage () {
 
   return (
     <Layout>
-      <h1 className='text-4xl font-bold text-center mt-10'>Explore our best Recipes!</h1>
-      <section className='grid grid-cols-12 gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all place-content-center'>
+      <h1 className='text-4xl font-bold text-center mt-10 stroke-yellow-400'>Explore our best Recipes!</h1>
+      <section className='grid grid-cols-12 grid-flow-row gap-10 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all place-content-center'>
         {
-          loading && <div className='w-36 h-36 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto' />
+          loading && shuffledRecipes.length === 0 && <div className='w-36 h-36 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto' />
         }
         {
-      !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
-        if (i > 11) return []
-        const { id, name, ingredients, instructions, cuisineId, dietId, difficultyId, image } = recipe
-        return (
-          <article key={id} className='col-span-12 hover:shadow-sm md:col-span-6 xl:col-span-4'>
-            <h2 className='font-semibold text-2xl font-sans mb-2 text-center'>{name}</h2>
-            <div className='w-full rounded-lg h-full max-h-96 overflow-hidden'>
-              <Link to={`/recipes/${id}`}>
-                <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
-              </Link>
-            </div>
-            <div className='flex justify-between'>
-              <ul className='w-1/2'>
-                <li className='text-center font-medium text-sm italic'>Ingredients</li>
-                {ingredients.map((ingredient, i) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
-              </ul>
-              <div className='w-1/2'>
-                <h3 className='font-medium text-sm italic text-center'> instructions</h3>
-                <p>{instructions}</p>
+          shuffledRecipes.length === 0 && <p className='col-span-full text-center'>No recipes found, Please contact the admin... It cannot be possible</p>
+        }
+        {
+        !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
+          if (i > 11) return []
+          const { id, name, ingredients, instructions, cuisineId, dietId, difficultyId, image } = recipe
+          return (
+            <article key={id} className='col-span-12 md:col-span-6 xl:col-span-4'>
+              <h2 className='font-semibold text-2xl font-sans mb-2 text-center'>{name}</h2>
+              <div className='w-full rounded-lg h-full max-h-96 overflow-hidden'>
+                <Link to={`/recipes/${id}`}>
+                  <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
+                </Link>
               </div>
-            </div>
-            <p>{cuisineId}</p>
-            <p>{dietId}</p>
-            <DifficultyButton difficulty={difficultyId} />
-          </article>
-        )
-      })
+              <div className='flex justify-between'>
+                <ul className='w-1/2'>
+                  <li className='text-center font-medium text-sm italic'>Ingredients</li>
+                  {ingredients.map((ingredient, i) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
+                </ul>
+                <div className='w-1/2'>
+                  <h3 className='font-medium text-sm italic text-center'> instructions</h3>
+                  <p>{instructions}</p>
+                </div>
+              </div>
+              <p>{cuisineId}</p>
+              <p>{dietId}</p>
+              <DifficultyButton difficulty={difficultyId} />
+            </article>
+          )
+        })
     }
       </section>
     </Layout>
@@ -126,7 +122,7 @@ export function Layout ({ children }, props) {
     <>
       <header>
         <nav>
-          <div className='max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto p-4 gap-4'>
+          <div className='max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto p-4 gap-10'>
             <Link
               to='/home'
               className='flex items-center space-x-3 rtl:space-x-reverse'
@@ -136,7 +132,7 @@ export function Layout ({ children }, props) {
                 RecipeBook
               </span>
             </Link>
-            <div className='flex md:order-1'>
+            <div className='flex md:order-1 w-full '>
               <button
                 type='button'
                 data-collapse-toggle='navbar-search'
@@ -147,7 +143,7 @@ export function Layout ({ children }, props) {
                 <SearchIcon />
                 <span className='sr-only'>Search</span>
               </button>
-              <div className='relative hidden md:block'>
+              <div className='relative hidden md:block w-full'>
                 <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
                   <SearchIcon />
                   <span className='sr-only'>Search icon</span>
@@ -156,7 +152,7 @@ export function Layout ({ children }, props) {
                 <input
                   type='text'
                   id='search-navbar'
-                  className='transition-all block sm:min-w-40 md:min-w-52 lg:min-w-60 xl:min-w-96 w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
+                  className='block p-2 ps-10 text-sm w-full text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
                   placeholder='Search...'
                 />
               </div>
@@ -219,30 +215,30 @@ export function Layout ({ children }, props) {
                 <li>
                   <NavLink
                     to='/home'
-                    className={isActive}
                   >
-                    Home
+                    <div>
+                      <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-home'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M5 12l-2 0l9 -9l9 9l-2 0' /><path d='M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7' /><path d='M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6' /></svg>
+                    </div>
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
                     data-popover-target='popover-default'
                     to='/search'
-                    className={isActive}
                   >
-                    Search
+                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-search'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' /><path d='M21 21l-6 -6' /></svg>
                   </NavLink>
-                  <div data-popover id='popover-default' role='tooltip' class='absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0'>
-                    <div class='px-3 py-2'>
+                  <div data-popover id='popover-default' role='tooltip' className='absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0'>
+                    <div className='px-3 py-2'>
                       <p>Advanced research</p>
                     </div>
                     <div data-popper-arrow />
                   </div>
                 </li>
-                <li className=' hover:scale-105 transition-all'>
+                <li className='hover:scale-105 transition-all'>
                   <NavLink
                     to='/add-recipe'
-                    className='px-5 lg:px-8 py-2 rounded-full bg-red-500 text-white active:bg-red-800'
+                    className='px-5 lg:px-8 py-2 rounded-full bg-red-500 text-white active:bg-red-800 text-nowrap'
                   >
                     Add Recipe
                   </NavLink>
