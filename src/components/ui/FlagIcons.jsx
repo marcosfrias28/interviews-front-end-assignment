@@ -1,10 +1,13 @@
+const widthIcon = 36
+const heightIcon = 36
+
 const FlagItalian = (props) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     aria-hidden='true'
     className='iconify iconify--twemoji'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
     viewBox='0 0 36 36'
     {...props}
   >
@@ -18,8 +21,8 @@ const FlagAmerican = (props) => (
     xmlns='http://www.w3.org/2000/svg'
     aria-hidden='true'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#B22334'
@@ -42,8 +45,8 @@ const FlagMexican = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#006847' d='M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h7V5H4z' />
     <path fill='#CE1126' d='M32 5h-7v26h7a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z' />
@@ -76,8 +79,8 @@ const FlagIndian = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#138808' d='M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z' />
     <path fill='#EEE' d='M0 13h36v10H0z' />
@@ -97,8 +100,8 @@ const FlagJapanese = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#EEE'
@@ -113,8 +116,8 @@ const FlagSpanish = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#C60A1D'
@@ -136,8 +139,8 @@ const FlagFrench = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#ED2939' d='M36 27a4 4 0 0 1-4 4h-8V5h8a4 4 0 0 1 4 4v18z' />
     <path fill='#002495' d='M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h8V5H4z' />
@@ -150,8 +153,8 @@ const FlagGreek = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#0D5EB0'
@@ -175,8 +178,8 @@ const FlagThai = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#A7122D'
@@ -197,8 +200,8 @@ const FlagBritish = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#00247D'
@@ -221,8 +224,8 @@ const FlagRussian = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#CE2028' d='M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4v-4h36v4z' />
     <path fill='#22408C' d='M0 13h36v10H0z' />
@@ -236,8 +239,8 @@ const FlagMiddleEastern = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#D21034' d='M32 5H4a4 4 0 0 0-4 4v4.5h36V9a4 4 0 0 0-4-4z' />
     <path fill='#141414' d='M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4.5H0V27z' />
@@ -254,8 +257,8 @@ const FlagNorthAfrican = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path fill='#009A49' d='M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h8V5H4z' />
     <path fill='#EEE' d='M12 5h12v26H12z' />
@@ -269,8 +272,8 @@ const FlagKorean = () => (
     aria-hidden='true'
     className='iconify iconify--twemoji'
     viewBox='0 0 36 36'
-    width={36}
-    height={36}
+    width={widthIcon}
+    height={heightIcon}
   >
     <path
       fill='#EEE'
