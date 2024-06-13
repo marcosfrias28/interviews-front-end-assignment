@@ -48,8 +48,8 @@ export function HomePage () {
 
 
   useEffect(() => {
-    getRecipes(12, 1)
     getCuisines()
+    getRecipes(12, 1)
   }, [])
 
   const shuffledRecipes = shuffle(recipes)
@@ -68,7 +68,7 @@ export function HomePage () {
         !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
           if (!recipe.name) return toast.error('Something went wrong')
           const { id, name, cuisineId, ingredients, instructions, difficultyId, image } = recipe
-          const cuisineName = cuisines.find(cuisine => cuisine.id === cuisineId).name
+          const cuisine = cuisines?.find(cuisine => cuisine.id === cuisineId)
           return (
             <article key={id} className='col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4'>
               <div className='relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4'>
@@ -77,7 +77,7 @@ export function HomePage () {
                 </Link>
                 <div className='absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2'>
                   <span className='flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
-                    <Flag nationality={cuisineId} /> {cuisineName}
+                    <Flag nationality={cuisineId} /> {cuisine?.name}
                   </span>
                   <span className='flex items-center justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
                     Difficulty: <DifficultyButton difficulty={difficultyId} />
@@ -88,7 +88,7 @@ export function HomePage () {
               <div className='flex justify-between mb-7'>
                 <ul className='w-1/2'>
                   <li className='text-center font-semibold text-sm italic'>Ingredients</li>
-                  {ingredients.map((ingredient, i) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
+                  {ingredients.map((ingredient: string, i: number) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
                 </ul>
                 <div className=' bg-black w-[3px] mx-5' />
                 <div className='w-1/2'>
@@ -147,7 +147,8 @@ export function Welcome () {
   )
 }
 
-export function Layout ({ children }, props) {
+export function Layout (props: { children: React.ReactNode }) {
+
   return (
     <>
       <header className='bg-gradient-to-b from-0% from-[#fc7c4ab8] to-100% to-[#f7f7f7] h-72'>
@@ -260,7 +261,7 @@ export function Layout ({ children }, props) {
       </header>
 
       <main className='min-h-dvh bg-[#f7f7f7]'>
-        {children}
+        {props.children}
       </main>
 
       <footer className='bg-white rounded-lg shadow dark:bg-gray-200 relative bottom-0 w-full'>
