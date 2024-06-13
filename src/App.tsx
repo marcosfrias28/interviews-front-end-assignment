@@ -136,19 +136,6 @@ export function HomePage () {
   )
 }
 
-export function SearchPage () {
-  const searchResults = useRecipeStore(state => state.searchResults)
-
-  useEffect(() => {
-  console.log(searchResults);
-  }, [searchResults])
-  return (
-    <Layout>
-      <h1>Search Page</h1>
-    </Layout>
-  )
-}
-
 export function Welcome () {
   return (
     <section className='relative min-h-dvh flex justify-center items-center'>

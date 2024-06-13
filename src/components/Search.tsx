@@ -6,6 +6,7 @@ import { useRecipeStore } from '../store/recipeStore'
 import SearchIcon from './icons/search'
 import React from 'react'
 import { dietType, difficultyType, filterType } from '../types/api-types'
+import { useNavigate } from 'react-router-dom'
 
 function Search(props: {className?: string, style?: React.CSSProperties, children?: React.ReactNode}) {
   
@@ -18,7 +19,6 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
   const {diets, getDiets } = useRecipeStore(state => ({diets: state.diets, getDiets: state.getDiets}))
   const {filter, setFilter} = useRecipeStore(state => ({filter: state.filter, setFilter: state.setFilter}))
   const {difficulties, getDifficulties} = useRecipeStore(state => ({difficulties: state.difficulties, getDifficulties: state.getDifficulties}))
-  
   const searchResults = useRecipeStore(state => state.searchResults)
   const cuisines = useRecipeStore(state => state.cuisines)
   const getRecipeBy = useRecipeStore(state => state.getRecipeBy)
@@ -34,14 +34,14 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
   }, [filter, searchResults]);
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
+    const navigate = useNavigate()
     e.preventDefault()
-
     switch (filter) {
       case 'q':
         getRecipeBy(filter, input)
         break
 
-      case 'cuisineId':  
+      case 'cuisineId':
         const cuisine = cuisines.find(cuisine => cuisine.name === input)
         if (cuisine) {
           getRecipeBy(filter, cuisine.id)
@@ -68,6 +68,7 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
         }
         break
     }
+    navigate('/search')
     setInput('')
   }
 
