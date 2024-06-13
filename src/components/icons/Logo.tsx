@@ -1,4 +1,4 @@
-const Logo = (props) => (
+const Logo = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width='50'
     viewBox='0 0 512 512'

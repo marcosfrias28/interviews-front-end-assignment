@@ -1,4 +1,4 @@
-const SearchIcon = (props) => (
+const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill='none'
     aria-hidden='true'

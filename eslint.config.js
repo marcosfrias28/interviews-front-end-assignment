@@ -1,18 +1,53 @@
-import globals from 'globals'
-import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js'
+const globals = require('globals')
+const typescriptParser = require('@typescript-eslint/parser')
+const typescriptPlugin = require('@typescript-eslint/eslint-plugin')
 
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
-import pluginJs from '@eslint/js'
-
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({ baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended })
-
-export default [
-  { languageOptions: { globals: globals.browser } },
-  ...compat.extends('standard'),
-  pluginReactConfig
+module.exports = [
+  'eslint:recommended',
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      parserOptions: {
+        sourceType: 'module'
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es6,
+        ...globals.commonjs
+      }
+    }
+  },
+  {
+    files: ['sub/*.js'],
+    rules: {
+      'no-undef': 'warn',
+      'no-console': 'warn'
+    }
+  },
+  {
+    files: ['*.ts', '**/*.ts'],
+    plugins: {
+      '@typescript-eslint': typescriptPlugin
+    },
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        project: './tsconfig.json',
+        sourceType: 'module',
+        ecmaVersion: 2020
+      }
+    },
+    rules: {
+      semi: 'off',
+      '@typescript-eslint/semi': 'error',
+      'no-extra-semi': 'warn',
+      curly: 'warn',
+      quotes: ['error', 'single', { allowTemplateLiterals: true }],
+      eqeqeq: 'error',
+      indent: 'off',
+      '@typescript-eslint/indent': ['warn', 'tab', { SwitchCase: 1 }],
+      '@typescript-eslint/no-floating-promises': 'error'
+    }
+  }
 ]

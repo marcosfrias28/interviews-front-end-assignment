@@ -1,29 +1,32 @@
-import { Link, NavLink, useParams } from 'react-router-dom'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import SearchIcon from './components/icons/search'
+import React from 'react'
+import { Link, NavLink} from 'react-router-dom'
+import SearchIcon from './components/Search'
 import { Toaster, toast } from 'sonner'
-import DifficultyButton from './components/ui/DifficultyButton.jsx'
-import Logo from './components/icons/Logo.jsx'
-import { Flag } from './components/ui/FlagIcons.jsx'
-import { useRecipeStore } from './store/recipeStore.ts'
-import Search from './components/Search.jsx'
+import DifficultyButton from './components/ui/DifficultyButton'
+import Logo from './components/icons/Logo'
+import { Flag } from './components/ui/FlagIcons'
+import { useRecipeStore } from './store/recipeStore'
+import Search from './components/Search'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
-export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND
-const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
+export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND;
+
+const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5)
 
 export function Details () {
   const { id } = useParams()
   const [currentRecipe, setCurrentRecipe] = useState([])
 
   useEffect(() => {
-    axios.get(`${API_URL}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
+      axios.get(`${API_URL}/recipes/${id}`).then((response) => console.log(response.data)).catch((e) => toast.error('Something went wrong'))
   }, [])
 
   return (
-    <Layout>
-      <h1>{currentRecipe.name}</h1>
-    </Layout>
+    <h1>
+      hOLA
+    </h1>
   )
 }
 
@@ -37,14 +40,15 @@ export function HomePage () {
   const loading = useRecipeStore(state => state.loading)
   const recipes = useRecipeStore(state => state.recipes)
   const cuisines = useRecipeStore(state => state.cuisines)
-  const getAllRecipes = useRecipeStore(state => state.getAllRecipes)
+  const getRecipes = useRecipeStore(state => state.getRecipes)
   const getCuisines = useRecipeStore(state => state.getCuisines)
 
   // --------------------------------------------------------------------------
   // Fetching all recipes and cuisines on component mount
 
+
   useEffect(() => {
-    getAllRecipes()
+    getRecipes(12, 1)
     getCuisines()
   }, [])
 
