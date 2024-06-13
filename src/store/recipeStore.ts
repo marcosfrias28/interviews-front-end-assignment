@@ -61,24 +61,24 @@ export const useRecipeStore = create<recipeStoreTypes>()(
         getRecipes: (_limit = 12, _page = 1) => {
           const { setRecipes, setLoading } = get();
           setLoading(true);
-          axios.get(`${API_URL}/recipes?_limit=${_limit}&_page=${_page}`).then((response) => setRecipes(response.data)).finally(() => setLoading(false));
+          axios.get(`${API_URL}/recipes?_limit=${_limit}&_page=${_page}`).then(({data}) => setRecipes(data)).finally(() => setLoading(false));
         },
 
         getDiets: () => {
           const { setDiets } = get();
-          axios.get(`${API_URL}/diets`).then((response) => setDiets(response.data)).catch((e) => toast.error('Something went wrong getting "diets"'))
+          axios.get(`${API_URL}/diets`).then(({data}) => setDiets(data)).catch((e) => toast.error('Something went wrong getting "diets"'))
          },
 
         getDifficulties: () => {
             const { setDifficulties } = get();
-            axios.get(`${API_URL}/difficulties`).then((response) => setDifficulties(response.data)).catch((e) => toast.error('Something went wrong getting "difficulties"'))
+            axios.get(`${API_URL}/difficulties`).then(({data}) => setDifficulties(data)).catch((e) => toast.error('Something went wrong getting "difficulties"'))
         },
 
         getRecipeBy: (filter, input) => {
           const { setSearchResults, setLoading } = get();
           setLoading(true);
           // Filter recipes by name, cuisine, difficulty, or dietary
-          axios.get(`${API_URL}/recipes?${filter}=${input}`).then((response) => setSearchResults(response.data)).catch((e) => toast.error('Something went wrong getting "Recipies"')).finally(() => setLoading(false));
+          axios.get(`${API_URL}/recipes?${filter}=${input}`).then(({data}) => setSearchResults(data)).catch((e) => toast.error('Something went wrong getting "Recipies"')).finally(() => setLoading(false));
         },
 
         getCuisines: () => {
