@@ -23,6 +23,7 @@ export interface recipeStoreTypes {
   setCuisines: (cuisines: cuisineType[]) => void;
   setDifficulties: (difficulties: difficultyType[]) => void;
   setSearchResults: (searchResults: recipeType[]) => void;
+  setDiets: (diets: dietType[]) => void;
 
   //Getter functions
   getRecipes: (_limit: number, _page: number) => void;
@@ -32,6 +33,7 @@ export interface recipeStoreTypes {
   ) => void;
   getDifficulties: () => void;
   getCuisines: () => void;
+  getDiets: () => void;
 }
 
 export const useRecipeStore = create<recipeStoreTypes>()(
@@ -61,6 +63,11 @@ export const useRecipeStore = create<recipeStoreTypes>()(
           setLoading(true);
           axios.get(`${API_URL}/recipes?_limit=${_limit}&_page=${_page}`).then((response) => setRecipes(response.data)).finally(() => setLoading(false));
         },
+
+        getDiets: () => {
+          const { setDiets } = get();
+          axios.get(`${API_URL}/diets`).then((response) => setDiets(response.data)).catch((e) => toast.error('Something went wrong getting "diets"'))
+         },
 
         getDifficulties: () => {
             const { setDifficulties } = get();
