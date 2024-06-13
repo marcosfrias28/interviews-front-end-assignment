@@ -8,7 +8,7 @@ import DifficultyButton from "../components/ui/DifficultyButton"
 
 const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5)
 
-export function HomePage () {
+function HomePage () {
     /*
   
     Getting all necessary states and functions from the store using zustand
@@ -82,3 +82,5 @@ export function HomePage () {
       </Layout>
     )
   }
+
+  export default HomePage;
