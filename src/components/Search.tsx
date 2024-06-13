@@ -7,7 +7,7 @@ import SearchIcon from './icons/search'
 import React from 'react'
 import { dietType, filterType } from '../types/api-types'
 
-function Search(props: React.HTMLProps<HTMLFormElement>) {
+function Search(props: {className?: string, style?: React.CSSProperties, children?: React.ReactNode}) {
   const [dietary, setDietary] = useState([])
     /*
 
@@ -38,7 +38,7 @@ function Search(props: React.HTMLProps<HTMLFormElement>) {
   }
 
   return (
-    <form onSubmit={handleSubmit} {...props}>
+    <form onSubmit={handleSubmit} className={props.className} >
       <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
         <SearchIcon />
         <span className='sr-only'>Search icon</span>
