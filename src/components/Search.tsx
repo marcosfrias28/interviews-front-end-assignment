@@ -5,35 +5,69 @@ import { toast } from 'sonner'
 import { useRecipeStore } from '../store/recipeStore'
 import SearchIcon from './icons/search'
 import React from 'react'
-import { dietType, filterType } from '../types/api-types'
+import { dietType, difficultyType, filterType } from '../types/api-types'
 
 function Search(props: {className?: string, style?: React.CSSProperties, children?: React.ReactNode}) {
-  const [dietary, setDietary] = useState([])
-    /*
-
+  
+  const [input, setInput] = useState('')
+  /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
    --------------------------------------------------------------------------
   */
-  const [input, setInput] = useState('')
-  const setFilter = useRecipeStore(state => state.setFilter)
-  const filter = useRecipeStore(state => state.filter)
+  const {diets, getDiets } = useRecipeStore(state => ({diets: state.diets, getDiets: state.getDiets}))
+  const {filter, setFilter} = useRecipeStore(state => ({filter: state.filter, setFilter: state.setFilter}))
+  const {difficulties, getDifficulties} = useRecipeStore(state => ({difficulties: state.difficulties, getDifficulties: state.getDifficulties}))
+  
+  const searchResults = useRecipeStore(state => state.searchResults)
   const cuisines = useRecipeStore(state => state.cuisines)
   const getRecipeBy = useRecipeStore(state => state.getRecipeBy)
-  const difficulties = ['Easy', 'Medium', 'Hard']
    // --------------------------------------------------------------------------
 
   useEffect(() => {
-    axios.get(`${API_URL}/diets`).then((response) => setDietary(response.data)).catch((e) => toast.error('Something went wrong'))
+    getDiets()
+    getDifficulties()
   }, [])
 
   useEffect(() => {
     setInput('')
-  }, [filter]);
+  }, [filter, searchResults]);
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    getRecipeBy(filter, input)
+
+    switch (filter) {
+      case 'q':
+        getRecipeBy(filter, input)
+        break
+
+      case 'cuisineId':  
+        const cuisine = cuisines.find(cuisine => cuisine.name === input)
+        if (cuisine) {
+          getRecipeBy(filter, cuisine.id)
+        } else {
+          toast.error('Cuisine not found')
+        }
+        break
+
+      case 'difficultyId':
+        const difficulty = difficulties.find(difficulty => difficulty.name === input)
+        if (difficulty) {
+          getRecipeBy(filter, difficulty.id)
+        } else {
+          toast.error('Difficulty not found')
+        }
+        break
+
+      case 'dietId':
+        const diet = diets.find(diet => diet.name === input)
+        if (diet) {
+          getRecipeBy(filter, diet.id)
+        } else {
+          toast.error('Diet not found')
+        }
+        break
+    }
     setInput('')
   }
 
@@ -55,13 +89,13 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
       />
 
       <datalist id='cuisineId'>
-        {cuisines.map((cuisine, i) => <option key={i} value={cuisine.name} />)}
+        {cuisines.map((cuisine) => <option key={cuisine.id} value={cuisine.name} />)}
       </datalist>
       <datalist id='difficultyId'>
-        {difficulties.map((difficulty, i) => <option key={i} value={difficulty} />)}
+        {difficulties.map((difficulty) => <option key={difficulty.id} value={difficulty.name} />)}
       </datalist>
       <datalist id='dietId'>
-        {dietary.map((diet : dietType) => <option key={diet.id} value={diet.name} />)}
+        {diets.map((diet : dietType) => <option key={diet.id} value={diet.name} />)}
       </datalist>
 
       {/* DESKTOP FILTER SELECT */}
