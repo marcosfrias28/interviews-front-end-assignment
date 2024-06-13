@@ -1,4 +1,4 @@
-import axios, { ResponseType } from "axios";
+import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { API_URL } from "../App";
