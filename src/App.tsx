@@ -1,14 +1,9 @@
-import { Link, NavLink, useParams} from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import SearchIcon from './components/Search'
-import { Toaster, toast } from 'sonner'
-import DifficultyButton from './components/ui/DifficultyButton'
+import { Toaster } from 'sonner'
 import Logo from './components/icons/Logo'
-import { Flag } from './components/ui/FlagIcons'
-import { useRecipeStore } from './store/recipeStore'
 import Search from './components/Search'
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
-import { recipeType } from './types/api-types'
+import React from 'react'
 
 export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND;
 
