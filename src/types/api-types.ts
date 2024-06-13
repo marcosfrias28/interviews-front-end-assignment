@@ -18,7 +18,7 @@ export interface cuisineType {
 export interface recipeType {
     id: string
     name: string
-    ingredients: string
+    ingredients: Array<string>
     instructions: string
     cuisineId: string
     dietId: string
