@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link, NavLink} from 'react-router-dom'
+import { Link, NavLink, useParams} from 'react-router-dom'
 import SearchIcon from './components/Search'
 import { Toaster, toast } from 'sonner'
 import DifficultyButton from './components/ui/DifficultyButton'
@@ -7,26 +6,57 @@ import Logo from './components/icons/Logo'
 import { Flag } from './components/ui/FlagIcons'
 import { useRecipeStore } from './store/recipeStore'
 import Search from './components/Search'
-import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { recipeType } from './types/api-types'
 
 export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND;
 
 const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5)
 
 export function Details () {
-  const { id } = useParams()
+  const { id } = useParams();
+  const recipes = useRecipeStore(state => state.recipes)
+  const cuisines = useRecipeStore(state => state.cuisines)
   const [currentRecipe, setCurrentRecipe] = useState([])
 
   useEffect(() => {
-      axios.get(`${API_URL}/recipes/${id}`).then((response) => console.log(response.data)).catch((e) => toast.error('Something went wrong'))
+      axios.get(`${API_URL}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
   }, [])
 
+  const { name, cuisineId, ingredients, instructions, difficultyId, image } = currentRecipe as unknown as recipeType
+
   return (
-    <h1>
-      hOLA
-    </h1>
+  <Layout>
+    <article className='col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4'>
+              <div className='relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4'>
+                <Link to={`/recipes/${id}`}>
+                  <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
+                </Link>
+                <div className='absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2'>
+                  <span className='flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
+                    <Flag nationality={cuisineId} /> {cuisines.find(cuisine => cuisine.id === cuisineId)?.name}
+                  </span>
+                  <span className='flex items-center justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
+                    Difficulty: <DifficultyButton difficulty={difficultyId} />
+                  </span>
+                </div>
+              </div>
+              <h2 className='font-semibold text-2xl font-sans mb-4 text-center'>{name}</h2>
+              <div className='flex justify-between mb-7'>
+                <ul className='w-1/2'>
+                  <li className='text-center font-semibold text-sm italic'>Ingredients</li>
+                  {ingredients.length > 0 && ingredients.map((ingredient: string, i: number) => <li className='list-inside list-item list-disc' key={i}>{ingredient}</li>)}
+                </ul>
+                <div className=' bg-black w-[3px] mx-5' />
+                <div className='w-1/2'>
+                  <h3 className='text-center font-semibold text-sm italic'> instructions</h3>
+                  <p>{instructions}</p>
+                </div>
+              </div>
+
+            </article>
+  </Layout>
   )
 }
 
@@ -107,6 +137,11 @@ export function HomePage () {
 }
 
 export function SearchPage () {
+  const searchResults = useRecipeStore(state => state.searchResults)
+
+  useEffect(() => {
+  console.log(searchResults);
+  }, [searchResults])
   return (
     <Layout>
       <h1>Search Page</h1>
