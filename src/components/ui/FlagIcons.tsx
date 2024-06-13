@@ -311,6 +311,6 @@ const FlagComponents = {
   14: <FlagKorean />
 }
 
-export function Flag ({ nationality }) {
+export function Flag ({ nationality }: any) {
   return FlagComponents[nationality] || null
 }
