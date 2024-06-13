@@ -7,8 +7,9 @@ import DifficultyButton from './components/ui/DifficultyButton.jsx'
 import Logo from './components/icons/Logo.jsx'
 import { Flag } from './components/ui/FlagIcons.jsx'
 import { useRecipeStore } from './store/recipeStore.ts'
+import Search from './components/Search.jsx'
 
-export const ENDPOINT = import.meta.env.VITE_ENDPOINT_BACKEND
+export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND
 const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
 
 export function Details () {
@@ -16,7 +17,7 @@ export function Details () {
   const [currentRecipe, setCurrentRecipe] = useState([])
 
   useEffect(() => {
-    axios.get(`${ENDPOINT}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
+    axios.get(`${API_URL}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
   }, [])
 
   return (
@@ -27,7 +28,20 @@ export function Details () {
 }
 
 export function HomePage () {
-  const { loading, recipes, setFilter, getAllRecipes, cuisines, getCuisines } = useRecipeStore(state => state)
+  /*
+
+  Getting all necessary states and functions from the store using zustand
+  IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
+   --------------------------------------------------------------------------
+  */
+  const loading = useRecipeStore(state => state.loading)
+  const recipes = useRecipeStore(state => state.recipes)
+  const cuisines = useRecipeStore(state => state.cuisines)
+  const getAllRecipes = useRecipeStore(state => state.getAllRecipes)
+  const getCuisines = useRecipeStore(state => state.getCuisines)
+
+  // --------------------------------------------------------------------------
+  // Fetching all recipes and cuisines on component mount
 
   useEffect(() => {
     getAllRecipes()
@@ -39,7 +53,7 @@ export function HomePage () {
   return (
     <Layout>
       <h1 className='text-7xl mb-10 font-bold text-center'>Explore our <span className='italic'>best </span>  Recipes!</h1>
-      <section className='grid grid-cols-12 grid-flow-row gap-x-10 gap-y-28 py-20 max-w-screen-2xl mx-auto px-10 sm:px-4 lg:px-4 transition-all place-content-center'>
+      <section className='grid grid-cols-1 md:grid-cols-6 xl:grid-cols-12 grid-flow-row gap-x-5 gap-y-20 py-20 max-w-screen-2xl mx-auto transition-all place-content-center'>
         {
           loading && shuffledRecipes.length === 0 && <div className='w-36 h-36 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto' />
         }
@@ -48,12 +62,11 @@ export function HomePage () {
         }
         {
         !loading && shuffledRecipes.length > 0 && shuffledRecipes.map((recipe, i) => {
-          if (i > 11) return [] // Only show 12 recipes at a time
           if (!recipe.name) return toast.error('Something went wrong')
           const { id, name, cuisineId, ingredients, instructions, difficultyId, image } = recipe
           const cuisineName = cuisines.find(cuisine => cuisine.id === cuisineId).name
           return (
-            <article key={id} className='col-span-12 md:col-span-6 xl:col-span-4'>
+            <article key={id} className='col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4'>
               <div className='relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4'>
                 <Link to={`/recipes/${id}`}>
                   <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
@@ -68,7 +81,7 @@ export function HomePage () {
                 </div>
               </div>
               <h2 className='font-semibold text-2xl font-sans mb-4 text-center'>{name}</h2>
-              <div className='flex justify-between'>
+              <div className='flex justify-between mb-7'>
                 <ul className='w-1/2'>
                   <li className='text-center font-semibold text-sm italic'>Ingredients</li>
                   {ingredients.map((ingredient, i) => <li className=' list-inside list-item list-disc' key={i}>{ingredient}</li>)}
@@ -101,15 +114,18 @@ export function Welcome () {
   return (
     <section className='relative min-h-dvh flex justify-center items-center'>
       <div className='absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#f6cb54_100%)]' />
-      <div className='grid max-w-screen-xl px-4 py-8 mx-auto gap-10 lg:py-16 lg:grid-cols-12'>
+      <div className='grid max-w-screen-xl px-4 py-8 mx-auto gap-10 lg:py-16 lg:grid-cols-12 '>
         <div className='lg:mt-0 lg:col-span-7 lg:flex'>
           <img src='eating-healthy.svg' alt='mockup' />
         </div>
 
         <div className='mr-auto place-self-center lg:col-span-5'>
-          <h1 className='max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl'>
-            RecipeBook
-          </h1>
+          <div className='flex items-start gap-4 flex-nowrap mb-4'>
+            <Logo />
+            <h1 className='self-center text-4xl font-black whitespace-nowrap'>
+              RecipeBook
+            </h1>
+          </div>
           <p className='max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400'>
             Discover, create, and share delicious recipes from all over the
             world with RecipeBook. Your culinary journey starts here.
@@ -137,7 +153,7 @@ export function Layout ({ children }, props) {
             className='flex items-center space-x-3 rtl:space-x-reverse'
           >
             <Logo />
-            <span className='self-center text-2xl font-semibold whitespace-nowrap'>
+            <span className='self-center text-4xl font-black whitespace-nowrap'>
               RecipeBook
             </span>
           </Link>
@@ -152,27 +168,10 @@ export function Layout ({ children }, props) {
               <SearchIcon />
               <span className='sr-only'>Search</span>
             </button>
-            <form className='relative hidden md:block w-full'>
-              <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
-                <SearchIcon />
-                <span className='sr-only'>Search icon</span>
-              </div>
-              {/* DESKTOP SEARCH BAR */}
-              <input
-                type='text'
-                id='search-navbar'
-                className='block p-2 ps-10 text-sm w-full text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
-                placeholder='Search...'
-              />
-              <div className='absolute inset-y-0 end-0 bg-transparent '>
-                <select onChange={(e) => setFilter} aria-placeholder='Search by...' name='' id='' className='text-sm w-40 h-full bg-transparent border border-black/20 rounded-tr-full rounded-br-full outline-0 focus:ring-0 focus:ring-yellow-500 focus:border-yellow-500'>
-                  <option defaultValue />
-                  <option value=''>Cuisine</option>
-                  <option value=''>Difficulty</option>
-                  <option value=''>Dietary</option>
-                </select>
-              </div>
-            </form>
+
+            {/* SEARCH FORM COMPONENT FOR DESKTOP */}
+            <Search className='relative hidden md:block w-full' />
+
             <button
               data-collapse-toggle='navbar-search'
               type='button'
@@ -202,38 +201,15 @@ export function Layout ({ children }, props) {
             className='items-center justify-between hidden w-full md:flex md:w-auto md:order-1'
             id='navbar-search'
           >
-            <div className='relative mt-3 md:hidden'>
-              <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
-                <svg
-                  className='w-4 h-4 text-gray-500 dark:text-gray-400'
-                  aria-hidden='true'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
-                  />
-                </svg>
-              </div>
-              {/* MOBILE SEARCH BAR */}
-              <input
-                type='text'
-                id='search-navbar'
-                className='transition-all block w-full p-2 ps-10 text-sm text-gray-900 border-yellow-500 rounded-full bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500'
-                placeholder='Search...'
-              />
-            </div>
-            <ul className='flex p-4 flex-col items-center md:items-start gap-5 md:gap-0 md:p-0 mt-4 font-medium border rounded-lg md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 '>
+            {/* SEARCH FORM COMPONENT FOR MOBILE */}
+            <Search className='relative md:hidden w-full' />
+
+            <ul className='flex p-4 flex-col items-center md:bg-transparent bg-[#f7f7f7] md:items-start gap-5 md:gap-0 md:p-0 mt-4 font-medium border rounded-lg md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 '>
               <div className='flex gap-6 md:gap-2.5 md:mr-3'>
                 <li>
                   <NavLink
                     to='/home'
-                    className={({ isActive }) => (isActive ? 'text-white' : '')}
+                    className={({ isActive }) => (isActive ? 'text-red-500' : '')}
                   >
                     <div className='flex flex-col justify-center items-center'>
                       <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-home'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M5 12l-2 0l9 -9l9 9l-2 0' /><path d='M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7' /><path d='M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6' /></svg>
@@ -245,7 +221,7 @@ export function Layout ({ children }, props) {
                 </li>
                 <li>
                   <NavLink
-                    className={({ isActive }) => (isActive ? 'text-white' : '')}
+                    className={({ isActive }) => (isActive ? 'text-red-500' : '')}
                     data-popover-target='popover-default'
                     to='/search'
                   >

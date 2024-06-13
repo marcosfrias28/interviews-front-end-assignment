@@ -1,29 +1,33 @@
-import axios from "axios";
+import axios, { ResponseType } from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import { ENDPOINT } from "../App";
+import { API_URL } from "../App";
 import { toast } from "sonner";
-
-interface filterTypes {
-  filter: "" | "Cuisine" | "Difficulty" | "Dietary";
-}
+import { data } from "autoprefixer";
 
 interface recipeTypes {
   filter: string;
   recipes: any[];
   cuisines: any[];
   loading: boolean;
-  setFilter: (filter: filterTypes) => void;
+  setFilter: (filter: "name" | "cuisine" | "difficulty" | "dietary") => void;
   setLoading: (loading: boolean) => void;
-  getAllRecipes: () => void;
+  setRecipes: (recipes: Array<any>) => void;
+  getAllRecipes: (_limit: number, _page: number) => void;
+  getRecipeBy: (
+    filter: "id" | "name" | "cuisine" | "difficulty" | "dietary",
+    input: string
+  ) => void;
   getCuisines: () => void;
+
+  getData: (QUERY: string) => Promise<ResponseType>;
 }
 
 export const useRecipeStore = create<recipeTypes>()(
   devtools(
     persist(
       (set, get) => ({
-        filter: "",
+        filter: "name",
 
         cuisines: [],
 
@@ -31,29 +35,49 @@ export const useRecipeStore = create<recipeTypes>()(
 
         loading: true,
 
-        setFilter: (filter: filterTypes) => {
-            set({ filter: filter.filter }, false, "filter:" + filter);
-         },
+        setFilter: (filter) => {
+          set({ filter }, false, "filter: " + filter);
+        },
+        setRecipes: (recipes: Array<any>) => {
+          set({ recipes }, false, "recipes: " + recipes);
+        },
 
         setLoading: (loading: boolean) =>
-          set({ loading }, false, "loading:" + loading),
-        getAllRecipes: () => {
+          set({ loading }, false, "loading: " + loading),
+
+        getData: async (QUERY: string) => {
           const { setLoading } = get();
           setLoading(true);
-          axios
-            .get(`${ENDPOINT}/recipes`)
-            .then((response) => {
-              set((state) => ({ ...state, recipes: response.data }));
-            })
-            .catch((e) => toast.error("Something went wrong"))
-            .finally(() => setLoading(false));
+          const res = await axios.get(QUERY);
+          if (res.request.status !== 200) {
+            toast.error("Something went wrong");
+          }
+          const data = await res.data;
+          setLoading(false);
+          return data;
+        },
+
+        getAllRecipes: (_limit, _page) => {
+          const limit = _limit || 12;
+          const page = _page || 1;
+          const { setRecipes, getData } = get();
+          getData(`${API_URL}/recipes?_limit=${limit}&_page=${page}`).then(
+            (data) => setRecipes(data)
+          );
+        },
+
+        getRecipeById: (id) => {},
+
+        getRecipeBy: (filter, input) => {
+          // Filter recipes by name, cuisine, difficulty, or dietary
+          const QUERY = `${API_URL}/recipes?${filter}=${input}`;
         },
 
         getCuisines: () => {
           const { setLoading } = get();
           setLoading(true);
           axios
-            .get(`${ENDPOINT}/cuisines`)
+            .get(`${API_URL}/cuisines`)
             .then((response) => {
               set((state) => ({ ...state, cuisines: response.data }));
             })
