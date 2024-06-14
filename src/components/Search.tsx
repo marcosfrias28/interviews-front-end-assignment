@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { useRecipeStore } from '../store/recipeStore'
 import SearchIcon from './icons/search'
 import React from 'react'
-import { dietType, filterType } from '../types/api-types'
+import { dietType, filterSearchType } from '../types/api-types'
 
 interface Props {
   mobile?: boolean
@@ -15,17 +15,18 @@ interface Props {
 function Search({mobile} : Props) {
 
   const [input, setInput] = useState('')
+  const [filter, setFilter] = useState('q');
+
   /*
   Getting all necessary states and functions from the store using zustand
-  IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
+  IMPORTANT NOT GETTING THE WHOLE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
    -------------------------------------------------------------------------------------------------------------------------
   */
   const {diets, getDiets } = useRecipeStore(state => ({diets: state.diets, getDiets: state.getDiets}))
-  const {filter, setFilter} = useRecipeStore(state => ({filter: state.filter, setFilter: state.setFilter}))
   const {difficulties, getDifficulties} = useRecipeStore(state => ({difficulties: state.difficulties, getDifficulties: state.getDifficulties}))
   const searchResults = useRecipeStore(state => state.searchResults)
   const cuisines = useRecipeStore(state => state.cuisines)
-  const getRecipeBy = useRecipeStore(state => state.getRecipeBy)
+  const getRecipeBySearch = useRecipeStore(state => state.getRecipeBySearch)
   const setSearchResults = useRecipeStore(state => state.setSearchResults)
    // ----------------------------------------------------------------------------------------------------------------------
 
@@ -41,17 +42,15 @@ function Search({mobile} : Props) {
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     // e.preventDefault()
-
-
     switch (filter) {
       case 'q':
-        getRecipeBy(filter, input)
+        getRecipeBySearch(filter, input)
         break
 
       case 'cuisineId':
         const cuisine = cuisines.find(cuisine => cuisine.name === input)
         if (cuisine) {
-          getRecipeBy(filter, cuisine.id)
+          getRecipeBySearch(filter, cuisine.id)
         } else {
           toast.error('Cuisine not found')
           setSearchResults([])
@@ -61,7 +60,7 @@ function Search({mobile} : Props) {
       case 'difficultyId':
         const difficulty = difficulties.find(difficulty => difficulty.name === input)
         if (difficulty) {
-          getRecipeBy(filter, difficulty.id)
+          getRecipeBySearch(filter, difficulty.id)
         } else {
           toast.error('Difficulty not found')
           setSearchResults([])
@@ -71,7 +70,7 @@ function Search({mobile} : Props) {
       case 'dietId':
         const diet = diets.find(diet => diet.name === input)
         if (diet) {
-          getRecipeBy(filter, diet.id)
+          getRecipeBySearch(filter, diet.id)
         } else {
           toast.error('Diet not found')
           setSearchResults([])
@@ -111,7 +110,7 @@ function Search({mobile} : Props) {
       {/* DESKTOP FILTER SELECT */}
       <div className='absolute inset-y-0 end-0 bg-transparent '>
         <select onChange={e => {
-          const value = e.target.value as filterType
+          const value = e.target.value as filterSearchType
           setFilter(value)
         }} className='text-sm w-32 h-full bg-transparent border border-black/20 rounded-tr-full rounded-br-full outline-0 focus:ring-0 focus:ring-yellow-500 focus:border-yellow-500' value={filter} aria-placeholder='Search by...' name='' id=''>
           <option value='q'>Name</option>
