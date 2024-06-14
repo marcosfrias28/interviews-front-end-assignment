@@ -1,4 +1,10 @@
-export type filterType = "q" | "cuisineId" | "difficultyId" | "dietId";
+export type filterSearchType = "q" | "cuisineId" | "difficultyId" | "dietId";
+
+export interface filterType {
+    cuisineId: string
+    difficultyId: string
+    dietId: string
+}
 
 export interface dietType {
     id: string
