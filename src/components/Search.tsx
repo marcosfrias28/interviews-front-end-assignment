@@ -1,20 +1,24 @@
-import axios from 'axios'
-import { API_URL } from '../App'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useRecipeStore } from '../store/recipeStore'
 import SearchIcon from './icons/search'
 import React from 'react'
-import { dietType, difficultyType, filterType } from '../types/api-types'
-import { useNavigate } from 'react-router-dom'
+import { dietType, filterType } from '../types/api-types'
 
-function Search(props: {className?: string, style?: React.CSSProperties, children?: React.ReactNode}) {
-  
+interface Props {
+  mobile?: boolean
+  style?: React.CSSProperties
+  children?: React.ReactNode
+}
+
+
+function Search({mobile} : Props) {
+
   const [input, setInput] = useState('')
   /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
-   --------------------------------------------------------------------------
+   -------------------------------------------------------------------------------------------------------------------------
   */
   const {diets, getDiets } = useRecipeStore(state => ({diets: state.diets, getDiets: state.getDiets}))
   const {filter, setFilter} = useRecipeStore(state => ({filter: state.filter, setFilter: state.setFilter}))
@@ -22,7 +26,9 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
   const searchResults = useRecipeStore(state => state.searchResults)
   const cuisines = useRecipeStore(state => state.cuisines)
   const getRecipeBy = useRecipeStore(state => state.getRecipeBy)
-   // --------------------------------------------------------------------------
+  const setSearchResults = useRecipeStore(state => state.setSearchResults)
+   // ----------------------------------------------------------------------------------------------------------------------
+
 
   useEffect(() => {
     getDiets()
@@ -34,8 +40,9 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
   }, [filter, searchResults]);
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
-    const navigate = useNavigate()
-    e.preventDefault()
+    // e.preventDefault()
+
+
     switch (filter) {
       case 'q':
         getRecipeBy(filter, input)
@@ -47,6 +54,7 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
           getRecipeBy(filter, cuisine.id)
         } else {
           toast.error('Cuisine not found')
+          setSearchResults([])
         }
         break
 
@@ -56,6 +64,7 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
           getRecipeBy(filter, difficulty.id)
         } else {
           toast.error('Difficulty not found')
+          setSearchResults([])
         }
         break
 
@@ -65,15 +74,15 @@ function Search(props: {className?: string, style?: React.CSSProperties, childre
           getRecipeBy(filter, diet.id)
         } else {
           toast.error('Diet not found')
+          setSearchResults([])
         }
         break
     }
-    navigate('/search')
     setInput('')
   }
 
   return (
-    <form onSubmit={handleSubmit} className={props.className} >
+    <form onSubmit={handleSubmit} action='/search' className={!mobile ? 'relative hidden md:block w-full' : 'relative md:hidden w-full'} >
       <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
         <SearchIcon />
         <span className='sr-only'>Search icon</span>
