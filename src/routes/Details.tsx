@@ -5,7 +5,7 @@ import { API_URL, Layout } from "../App";
 import axios from "axios";
 import { recipeType } from "../types/api-types";
 import { toast } from "sonner";
-import DifficultyButton from "../components/ui/DifficultyButton";
+import DifficultyLabel from "../components/ui/DifficultyLabel";
 import { Flag } from "../components/ui/FlagIcons";
 
 function DetailsPage () {
@@ -13,13 +13,10 @@ function DetailsPage () {
     const recipes = useRecipeStore(state => state.recipes)
     const cuisines = useRecipeStore(state => state.cuisines)
     const [currentRecipe, setCurrentRecipe] = useState([])
-  
     useEffect(() => {
         axios.get(`${API_URL}/recipes/${id}`).then((response) => setCurrentRecipe(response.data)).catch((e) => toast.error('Something went wrong'))
     }, [])
-  
     const { name, cuisineId, ingredients, instructions, difficultyId, image } = currentRecipe as unknown as recipeType
-  
     return (
     <Layout>
       <article className='col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4'>
@@ -32,7 +29,7 @@ function DetailsPage () {
                       <Flag nationality={cuisineId} /> {cuisines.find(cuisine => cuisine.id === cuisineId)?.name}
                     </span>
                     <span className='flex items-center justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
-                      Difficulty: <DifficultyButton difficulty={difficultyId} />
+                      Difficulty: <DifficultyLabel difficulty={difficultyId} />
                     </span>
                   </div>
                 </div>
