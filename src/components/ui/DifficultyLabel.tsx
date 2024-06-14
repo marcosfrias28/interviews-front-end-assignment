@@ -7,8 +7,8 @@ const SelectButton = {
   2: <Medium />,
   3: <Hard />
 }
-function DifficultyButton ({ difficulty }) {
+function DifficultyLabel ({ difficulty } ) {
   return SelectButton[difficulty]
 }
 
-export default DifficultyButton
+export default DifficultyLabel
