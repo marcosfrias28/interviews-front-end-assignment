@@ -20,9 +20,10 @@ function DetailsPage () {
     return (
     <Layout>
       <article className='col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4'>
-                <div className='relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4'>
+                <h1 className='font-semibold text-8xl font-sans mb-4 text-center'>{name}</h1>
+                <div className='relative w-full rounded-lg h-full max-h-[800px] overflow-hidden mb-4'>
                   <Link to={`/recipes/${id}`}>
-                    <img className='h-full w-full object-cover object-center hover:scale-105 transition-all' src={`http://localhost:8080${image}`} alt={name} />
+                    <img className='h-full w-full object-cover object-center transition-all' src={`http://localhost:8080${image}`} alt={name} />
                   </Link>
                   <div className='absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2'>
                     <span className='flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto'>
@@ -33,11 +34,9 @@ function DetailsPage () {
                     </span>
                   </div>
                 </div>
-                <h2 className='font-semibold text-2xl font-sans mb-4 text-center'>{name}</h2>
                 <div className='flex justify-between mb-7'>
                   <ul className='w-1/2'>
                     <li className='text-center font-semibold text-sm italic'>Ingredients</li>
-                    {ingredients.length > 0 && ingredients.map((ingredient: string, i: number) => <li className='list-inside list-item list-disc' key={i}>{ingredient}</li>)}
                   </ul>
                   <div className=' bg-black w-[3px] mx-5' />
                   <div className='w-1/2'>
