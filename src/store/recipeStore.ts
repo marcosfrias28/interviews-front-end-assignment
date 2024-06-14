@@ -9,11 +9,11 @@ import {
   filterType,
   recipeType,
   dietType,
-  filterSearchType,
 } from "../types/api-types";
 
 export interface recipeStoreTypes {
   //State
+  list: "q" | "cuisineId" | "difficultyId" | "dietId";
   filter: filterType;
   recipes: recipeType[] | [];
   cuisines: cuisineType[] | [];
@@ -30,22 +30,30 @@ export interface recipeStoreTypes {
   setDifficulties: (difficulties: difficultyType[]) => void;
   setSearchResults: (searchResults: recipeType[]) => void;
   setDiets: (diets: dietType[]) => void;
-
+  setList: (list: "q" | "cuisineId" | "difficultyId" | "dietId") => void;
   //Getter functions
   getRecipes: (_limit: number, _page: number) => void;
-  getRecipeBy: (filter: filterType, input: string) => void;
-  getRecipeBySearch: (filter: filterSearchType, input: string) => void;
+  getRecipeBy: (filter: filterType) => void;
   getDifficulties: () => void;
   getCuisines: () => void;
   getDiets: () => void;
 }
 
-export const useRecipeStore = create<recipeStoreTypes>()(
+export const recipeStore = create<recipeStoreTypes>()(
   devtools(
     persist(
       (set, get) => ({
         //State
-        filter: {q: "", cuisineId: "", difficultyId: "", dietId: ""},
+
+        /*
+        "q" string represents the search query for
+        the recipes that you select on filters or search
+
+        "q" is the default value for the list
+        and the others values are "cuisineId", "difficultyId", "dietId"
+        */
+        list: "q",
+        filter: { q: "", cuisineId: "", difficultyId: "", dietId: "" },
         recipes: [],
         cuisines: [],
         difficulties: [],
@@ -55,6 +63,7 @@ export const useRecipeStore = create<recipeStoreTypes>()(
 
         //Setter functions
         setFilter: (filter) => set({ filter }, false, "set filter: " + filter),
+        setList: (list) => set({ list }, false, "set list: " + list),
         setLoading: (loading: boolean) =>
           set({ loading }, false, "set loading: " + loading),
         setRecipes: (recipes: recipeType[]) =>
@@ -96,32 +105,17 @@ export const useRecipeStore = create<recipeStoreTypes>()(
             );
         },
 
-        getRecipeBy: ({ cuisineId, difficultyId, dietId }) => {
+        getRecipeBy: ({ q, cuisineId, difficultyId, dietId }) => {
           const { setSearchResults, setLoading } = get();
           setLoading(true);
           let QUERY = `${API_URL}/recipes?`;
           // Filter recipes by name, cuisine, difficulty, or dietary
-          console.log(cuisineId, difficultyId, dietId);
-          if (cuisineId !== '') QUERY += `cuisineId=${cuisineId}&`;
-          if (difficultyId !== '') QUERY += `difficultyId=${difficultyId}&`;
-          if (dietId !== '') QUERY += `dietId=${dietId}&`;
+          if (q !== "") QUERY += `q=${q}&`;
+          if (cuisineId !== "") QUERY += `cuisineId=${cuisineId}&`;
+          if (difficultyId !== "") QUERY += `difficultyId=${difficultyId}&`;
+          if (dietId !== "") QUERY += `dietId=${dietId}&`;
           axios
             .get(QUERY)
-            .then(({ data }) => setSearchResults(data))
-            .catch((e) =>
-              toast.error('Something went wrong getting "Recipies"')
-            )
-            .finally(() => setLoading(false));
-        },
-
-        getRecipeBySearch: (filter : filterSearchType, input : string) => {
-          const { setSearchResults, setLoading } = get();
-          setLoading(true);
-          // Filter recipes by name, cuisine, difficulty, or dietary
-          axios
-            .get(
-              `${API_URL}/recipes?${filter}=${input}`
-            )
             .then(({ data }) => setSearchResults(data))
             .catch((e) =>
               toast.error('Something went wrong getting "Recipies"')

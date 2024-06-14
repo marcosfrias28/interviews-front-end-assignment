@@ -1,38 +1,36 @@
 import { MouseEventHandler, useEffect, useState } from "react";
-import { useRecipeStore } from "../store/recipeStore";
+import useRecipeStore from "../hooks/useRecipeStore";
 import { Layout } from "../App";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { Flag } from "../components/ui/FlagIcons";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import useTitle from "../hooks/useTitle";
+import { filterType } from "../types/api-types";
 
 function SearchPage() {
   // Setting the title of the page with simple custom hook
   useTitle("Search");
 
-  const searchResults = useRecipeStore((state) => state.searchResults);
-  const cuisines = useRecipeStore((state) => state.cuisines);
-  const diets = useRecipeStore((state) => state.diets);
-  const getRecipeBy = useRecipeStore((state) => state.getRecipeBy);
+    /*
+  Getting all necessary states and functions from the store using zustand
+  IMPORTANT NOT GETTING THE WHOLE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
+   -------------------------------------------------------------------------------------------------------------------------
+  */
+  const {searchResults, cuisines, diets, getRecipeBy, filter, setFilter} = useRecipeStore();
+  // ----------------------------------------------------------------------------------------------------------------------
 
-  const [filter, setFilter] = useState({
-    cuisineId: "",
-    difficultyId: "",
-    dietId: "",
-  });
   useEffect(() => {
-    getRecipeBy(filter, "");
-    console.log(filter);
+    getRecipeBy(filter);
   }, [filter]);
 
   function handleCuisineChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.currentTarget.getAttribute("value") as string;
-    setFilter((prevState) => ({ ...prevState, cuisineId: value }));
+    setFilter({ ...filter, cuisineId: value });
   }
   function handleDifficultyClick(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.currentTarget.getAttribute("value") as string;
-    setFilter((prevState) => ({ ...prevState, difficultyId: value }));
+    setFilter({ ...filter, difficultyId: value });
   }
 
   return (

@@ -10,7 +10,7 @@ export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND;
 export function Layout(props: { children: React.ReactNode }) {
   return (
     <>
-      <header className="bg-gradient-to-b relative from-0% from-[#fc7c4ab8] to-100% to-[#f7f7f7] h-72">
+      <header className="bg-gradient-to-b relative from-0% from-[#fc7c4ab8] to-100% to-[#f7f7f7] h-56">
         <nav className="max-w-screen-xl flex flex-wrap md:flex-nowrap items-center pt-7 justify-between mx-auto p-4 gap-10">
           <Link
             to="/home"

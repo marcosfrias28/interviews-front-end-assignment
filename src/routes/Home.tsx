@@ -1,39 +1,39 @@
-import { useEffect } from "react";
-import { useRecipeStore } from "../store/recipeStore";
+import { useEffect, useState } from "react";
 import { Layout } from "../App";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { Flag } from "../components/ui/FlagIcons";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import useTitle from "../hooks/useTitle";
+import useRecipeStore from "../hooks/useRecipeStore";
 
 const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5);
 
 function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
-
   /*
   
-    Getting all necessary states and functions from the store using zustand
-    IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
-     --------------------------------------------------------------------------
-    */
-  const loading = useRecipeStore((state) => state.loading);
-  const recipes = useRecipeStore((state) => state.recipes);
-  const cuisines = useRecipeStore((state) => state.cuisines);
-  const getRecipes = useRecipeStore((state) => state.getRecipes);
-  const getCuisines = useRecipeStore((state) => state.getCuisines);
+  Getting all necessary states and functions from the store using zustand
+  IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
+  --------------------------------------------------------------------------
+  */
+  const { loading, recipes, cuisines, getRecipes, getCuisines } =
+    useRecipeStore();
 
   // --------------------------------------------------------------------------
   // Fetching all recipes and cuisines on component mount
+
+  const [shuffledRecipes, setShuffledRecipes] = useState(shuffle(recipes));
 
   useEffect(() => {
     getCuisines();
     getRecipes(12, 1);
   }, []);
 
-  const shuffledRecipes = shuffle(recipes);
+  useEffect(() => {
+    setShuffledRecipes(shuffle(recipes));
+  }, [recipes]);
 
   return (
     <Layout>
