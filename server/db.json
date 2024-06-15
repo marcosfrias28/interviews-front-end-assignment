@@ -351,30 +351,43 @@
       "dietId": "3",
       "difficultyId": "1",
       "image": "/uploads/Pasta-Primavera-f.webp"
+    },
+    {
+      "id": "1718441245101",
+      "name": "Pizza Diavola",
+      "ingredients": [
+        "Spianata",
+        "Pomodoro",
+        "Mozzarella"
+      ],
+      "instructions": "Preheat oven to 475°F. Roll out dough, add tomato sauce, mozzarella, spicy salami, and chili flakes. Drizzle with olive oil. Bake 10-12 minutes. Optionally, add fresh basil. Slice and enjoy!",
+      "cuisineId": "1",
+      "dietId": "1",
+      "difficultyId": "2",
+      "image": "/uploads/1718441245095.jpg"
+    },
+    {
+      "id": "1718451374583",
+      "name": "Challah French Toast",
+      "ingredients": [
+        "4 large eggs",
+        "1 cup buttermilk",
+        "1/2 cup whole milk",
+        "1/2 teaspoon ground cinnamon",
+        "1/8 teaspoon nutmeg",
+        "1 teaspoon vanilla extract",
+        "4 tablespoons butter",
+        " divided",
+        "8 (1-inch thick) slices challah"
+      ],
+      "instructions": "If you need to keep the French toast warm after cooking place them in a warm (250ºF) oven on a baking sheet as they come out of the skillet, for up to 30 minutes. If you leave them warming in the oven for longer, they will begin to dry ou",
+      "cuisineId": "7",
+      "dietId": "2",
+      "difficultyId": "Easy",
+      "image": "/uploads/1718451374583.webp"
     }
   ],
   "comments": [
-    {
-      "id": "1",
-      "recipeId": "1",
-      "comment": "Delicious and easy to make!",
-      "rating": 5,
-      "date": "2024-06-08T14:48:00.000Z"
-    },
-    {
-      "id": "2",
-      "recipeId": "1",
-      "comment": "Loved it! Perfect for a quick dinner.",
-      "rating": 4,
-      "date": "2024-06-09T12:30:00.000Z"
-    },
-    {
-      "id": "3",
-      "recipeId": "1",
-      "comment": "Great flavors, will make again.",
-      "rating": 5,
-      "date": "2024-06-10T09:45:00.000Z"
-    },
     {
       "id": "4",
       "recipeId": "2",
@@ -593,6 +606,78 @@
     {
       "id": "14",
       "name": "Korean"
+    },
+    {
+      "id": "15",
+      "name": "Chinese"
+    },
+    {
+      "id": "16",
+      "name": "Vietnamese"
+    },
+    {
+      "id": "17",
+      "name": "Turkish"
+    },
+    {
+      "id": "18",
+      "name": "Brazilian"
+    },
+    {
+      "id": "19",
+      "name": "Caribbean"
+    },
+    {
+      "id": "20",
+      "name": "Moroccan"
+    },
+    {
+      "id": "21",
+      "name": "Ethiopian"
+    },
+    {
+      "id": "22",
+      "name": "Peruvian"
+    },
+    {
+      "id": "23",
+      "name": "Lebanese"
+    },
+    {
+      "id": "24",
+      "name": "Indonesian"
+    },
+    {
+      "id": "25",
+      "name": "Filipino"
+    },
+    {
+      "id": "26",
+      "name": "German"
+    },
+    {
+      "id": "27",
+      "name": "Portuguese"
+    },
+    {
+      "id": "28",
+      "name": "Cuban"
+    },
+    {
+      "id": "29",
+      "name": "Malaysian"
+    },
+    {
+      "id": "30",
+      "name": "Argentinian"
+    },
+    {
+      "id": "31",
+      "name": "Hungarian"
+    },
+    {
+      "id": "32",
+      "name": "Swedish"
     }
   ],
   "difficulties": [
@@ -625,6 +710,78 @@
     {
       "id": "4",
       "name": "Pescatarian"
+    },
+    {
+      "id": "5",
+      "name": "Vegan"
+    },
+    {
+      "id": "6",
+      "name": "Keto"
+    },
+    {
+      "id": "7",
+      "name": "Paleo"
+    },
+    {
+      "id": "8",
+      "name": "Gluten-Free"
+    },
+    {
+      "id": "9",
+      "name": "DASH"
+    },
+    {
+      "id": "10",
+      "name": "Low-Carb"
+    },
+    {
+      "id": "11",
+      "name": "Whole30"
+    },
+    {
+      "id": "12",
+      "name": "Raw"
+    },
+    {
+      "id": "13",
+      "name": "Low-FODMAP"
+    },
+    {
+      "id": "14",
+      "name": "Flexitarian"
+    },
+    {
+      "id": "15",
+      "name": "Intermittent Fasting"
+    },
+    {
+      "id": "16",
+      "name": "Zone Diet"
+    },
+    {
+      "id": "17",
+      "name": "South Beach"
+    },
+    {
+      "id": "18",
+      "name": "Atkins"
+    },
+    {
+      "id": "19",
+      "name": "Carnivore"
+    },
+    {
+      "id": "20",
+      "name": "Nordic"
+    },
+    {
+      "id": "21",
+      "name": "Macrobiotic"
+    },
+    {
+      "id": "22",
+      "name": "Anti-Inflammatory"
     }
   ]
 }
