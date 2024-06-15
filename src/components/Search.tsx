@@ -10,6 +10,7 @@ import {
   filterSearchType,
   filterType,
 } from "../types/api-types";
+import Datalists from "./Datalists";
 
 interface Props {
   mobile?: boolean;
@@ -37,7 +38,6 @@ function Search({ mobile }: Props) {
     setFilter,
     searchResults,
     cuisines,
-    getRecipeBy,
   } = useRecipeStore();
   // ----------------------------------------------------------------------------------------------------------------------
 
@@ -104,21 +104,7 @@ function Search({ mobile }: Props) {
         onChange={(e) => setInput(e.target.value)}
       />
 
-      <datalist id="cuisineId">
-        {cuisines.map((cuisine: cuisineType) => (
-          <option key={cuisine.id} value={cuisine.name} />
-        ))}
-      </datalist>
-      <datalist id="difficultyId">
-        {difficulties.map((difficulty: difficultyType) => (
-          <option key={difficulty.id} value={difficulty.name} />
-        ))}
-      </datalist>
-      <datalist id="dietId">
-        {diets.map((diet: dietType) => (
-          <option key={diet.id} value={diet.name} />
-        ))}
-      </datalist>
+      <Datalists />
 
       {/* DESKTOP FILTER SELECT */}
       <div className="absolute inset-y-0 end-0 bg-transparent ">

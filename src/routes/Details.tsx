@@ -6,7 +6,7 @@ import axios from "axios";
 import { cuisineType, ingredientType, recipeType } from "../types/api-types";
 import { toast } from "sonner";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
-import { Flag } from "../components/ui/FlagIcons";
+import { GetFlag } from "../components/ui/FlagIcons";
 
 function DetailsPage() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ function DetailsPage() {
   return (
     <Layout>
       <article className="col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4">
-        <h1 className="font-semibold text-8xl font-sans mb-4 text-center">
+        <h1 className="font-black text-7xl font-lato text-center mb-10">
           {name}
         </h1>
         <div className="relative w-full rounded-lg h-full max-h-[800px] overflow-hidden mb-4">
@@ -36,7 +36,7 @@ function DetailsPage() {
           </Link>
           <div className="absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2">
             <span className="flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto">
-              <Flag nationality={cuisineId} />{" "}
+              <GetFlag nationality={cuisineId} />
               {
                 cuisines.find(
                   (cuisine: cuisineType) => cuisine.id === cuisineId
@@ -62,7 +62,6 @@ function DetailsPage() {
           <div className=" bg-black w-[3px] mx-5" />
           <div className="w-1/2">
             <h3 className="text-center font-semibold text-sm italic">
-              {" "}
               instructions
             </h3>
             <p>{instructions}</p>
