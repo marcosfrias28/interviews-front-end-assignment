@@ -157,7 +157,7 @@ export function Layout(props: { children: React.ReactNode }) {
       <footer className="bg-white rounded-lg shadow dark:bg-gray-200 relative bottom-0 w-full">
         <div className="w-full max-w-screen-xl mx-auto md:flex p-4 md:items-center md:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2023{" "}
+            © 2023
             <Link to="/" className="hover:underline">
               Welcome
             </Link>
