@@ -381,10 +381,210 @@
         "8 (1-inch thick) slices challah"
       ],
       "instructions": "If you need to keep the French toast warm after cooking place them in a warm (250ºF) oven on a baking sheet as they come out of the skillet, for up to 30 minutes. If you leave them warming in the oven for longer, they will begin to dry ou",
+      "cuisineId": "French",
+      "dietId": "Zone Diet",
+      "difficultyId": "Easy",
+      "image": null
+    },
+    {
+      "id": "1718457783454",
+      "name": "Pastel En Hojas",
+      "ingredients": [
+        "2 Platano",
+        "1/2 Yautia ",
+        "10 Guineo",
+        "1kg Carne"
+      ],
+      "instructions": "Preheat oven to 350°F. Prepare banana leaves. Mix cornmeal, pork lard, broth, and annatto. Spread mixture on leaves. Add meat, veggies, and olives. Wrap tightly. Steam for 1.5-2 hours. Serve hot. Enjoy Pasteles en Hojas Dominicanos!",
+      "cuisineId": "19",
+      "dietId": "19",
+      "difficultyId": "2",
+      "image": "/uploads/1718457783448.webp"
+    },
+    {
+      "id": "23",
+      "name": "Chicken Parmesan",
+      "ingredients": [
+        "Chicken Breasts",
+        "Eggs",
+        "Breadcrumbs",
+        "Marinara Sauce",
+        "Mozzarella Cheese",
+        "Parmesan Cheese",
+        "Basil"
+      ],
+      "instructions": "Coat chicken in egg and breadcrumbs. Fry until golden. Top with marinara sauce and cheese. Bake until bubbly. Garnish with basil.",
+      "cuisineId": "1",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/chicken-parmesan.jpg"
+    },
+    {
+      "id": "24",
+      "name": "Vegetable Stir Fry",
+      "ingredients": [
+        "Assorted Vegetables (Broccoli, Bell Peppers, Carrots, Mushrooms, etc.)",
+        "Soy Sauce",
+        "Garlic",
+        "Ginger",
+        "Sesame Oil",
+        "Cooking Oil",
+        "Rice"
+      ],
+      "instructions": "Heat oil in a pan. Add garlic and ginger. Stir in vegetables. Cook until tender-crisp. Add soy sauce and sesame oil. Serve over rice.",
+      "cuisineId": "15",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/vegetable-stir-fry.webp"
+    },
+    {
+      "id": "25",
+      "name": "Mushroom Risotto",
+      "ingredients": [
+        "Arborio Rice",
+        "Chicken or Vegetable Broth",
+        "Mushrooms",
+        "Onion",
+        "White Wine",
+        "Parmesan Cheese",
+        "Butter",
+        "Garlic"
+      ],
+      "instructions": "Sauté onion and garlic. Add rice and wine. Gradually stir in broth until absorbed. Stir in mushrooms, cheese, and butter.",
       "cuisineId": "7",
       "dietId": "2",
-      "difficultyId": "Easy",
-      "image": "/uploads/1718451374583.webp"
+      "difficultyId": "3",
+      "image": "/uploads/mushroom-risotto.jpg"
+    },
+    {
+      "id": "26",
+      "name": "Caprese Salad",
+      "ingredients": [
+        "Tomatoes",
+        "Fresh Mozzarella Cheese",
+        "Basil Leaves",
+        "Balsamic Vinegar",
+        "Olive Oil",
+        "Salt",
+        "Black Pepper"
+      ],
+      "instructions": "Slice tomatoes and mozzarella. Arrange with basil leaves. Drizzle with olive oil and balsamic vinegar. Season with salt and pepper.",
+      "cuisineId": "1",
+      "dietId": "1",
+      "difficultyId": "1",
+      "image": "/uploads/caprese-salad.jpg"
+    },
+    {
+      "id": "27",
+      "name": "Vegetarian Chili",
+      "ingredients": [
+        "Beans (Kidney, Black, Pinto, etc.)",
+        "Tomatoes",
+        "Onions",
+        "Bell Peppers",
+        "Corn",
+        "Chili Powder",
+        "Cumin",
+        "Garlic",
+        "Vegetable Broth"
+      ],
+      "instructions": "Sauté onions, garlic, and peppers. Add beans, tomatoes, corn, and spices. Simmer until flavors meld.",
+      "cuisineId": "2",
+      "dietId": "3",
+      "difficultyId": "2",
+      "image": "/uploads/vegetarian-chili.jpg"
+    },
+    {
+      "id": "28",
+      "name": "Shrimp Scampi",
+      "ingredients": [
+        "Shrimp",
+        "Garlic",
+        "Butter",
+        "Lemon Juice",
+        "White Wine",
+        "Parsley",
+        "Spaghetti"
+      ],
+      "instructions": "Cook spaghetti. Sauté garlic in butter. Add shrimp, lemon juice, and wine. Cook until shrimp are pink. Toss with spaghetti and parsley.",
+      "cuisineId": "1",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/shrimp-scampi.jpg"
+    },
+    {
+      "id": "29",
+      "name": "Beef Wellington",
+      "ingredients": [
+        "Beef Tenderloin",
+        "Mushrooms",
+        "Puff Pastry",
+        "Dijon Mustard",
+        "Prosciutto",
+        "Egg",
+        "Thyme"
+      ],
+      "instructions": "Sear beef. Coat with mustard. Wrap in prosciutto and mushroom mixture. Encase in puff pastry. Bake until golden.",
+      "cuisineId": "10",
+      "dietId": "2",
+      "difficultyId": "3",
+      "image": "/uploads/beef-wellington.jpg"
+    },
+    {
+      "id": "30",
+      "name": "Tom Yum Soup",
+      "ingredients": [
+        "Shrimp",
+        "Lemongrass",
+        "Kaffir Lime Leaves",
+        "Galangal",
+        "Mushrooms",
+        "Tomatoes",
+        "Fish Sauce",
+        "Lime Juice",
+        "Chili Paste"
+      ],
+      "instructions": "Boil lemongrass, lime leaves, and galangal in water. Add shrimp, mushrooms, and tomatoes. Season with fish sauce, lime juice, and chili paste.",
+      "cuisineId": "9",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/tom-yum-soup.jpg"
+    },
+    {
+      "id": "31",
+      "name": "Shepherd's Pie",
+      "ingredients": [
+        "Ground Lamb",
+        "Onions",
+        "Carrots",
+        "Peas",
+        "Mashed Potatoes",
+        "Butter",
+        "Beef Broth",
+        "Tomato Paste"
+      ],
+      "instructions": "Cook lamb with onions and carrots. Add peas, broth, and tomato paste. Top with mashed potatoes and bake until golden.",
+      "cuisineId": "10",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/shepherds-pie.avif"
+    },
+    {
+      "id": "32",
+      "name": "Chocolate Lava Cake",
+      "ingredients": [
+        "Dark Chocolate",
+        "Butter",
+        "Sugar",
+        "Eggs",
+        "Flour",
+        "Vanilla Extract"
+      ],
+      "instructions": "Melt chocolate and butter. Whisk in sugar, eggs, flour, and vanilla. Pour into molds and bake until edges are set but center is gooey.",
+      "cuisineId": "7",
+      "dietId": "2",
+      "difficultyId": "3",
+      "image": "/uploads/chocolate-lava-cake.webp"
     }
   ],
   "comments": [
