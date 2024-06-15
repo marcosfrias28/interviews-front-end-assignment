@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        onest: ['"Onest"', 'sans-serif']
+        onest: ['"Onest"', 'sans-serif'],
+        lato: ['"Lato"', 'sans-serif']
       }
     }
   },
