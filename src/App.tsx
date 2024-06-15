@@ -17,7 +17,7 @@ export function Layout(props: { children: React.ReactNode }) {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <Logo />
-            <span className="self-center text-4xl font-black whitespace-nowrap">
+            <span className="self-center text-4xl font-black font-onest whitespace-nowrap">
               RecipeBook
             </span>
           </Link>
