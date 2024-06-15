@@ -6,9 +6,11 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
 import Datalists from "../components/Datalists";
+import useTitle from "../hooks/useTitle";
 
 function AddRecipePage() {
   const navigate = useNavigate();
+  useTitle("Add Recipe");
 
   const [id, setId] = useState<string>("");
 
