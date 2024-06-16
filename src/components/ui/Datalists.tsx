@@ -1,5 +1,5 @@
-import useRecipeStore from "../hooks/useRecipeStore";
-import { cuisineType, dietType, difficultyType } from "../types/api-types";
+import useRecipeStore from "../../hooks/useRecipeStore";
+import { cuisineType, dietType, difficultyType } from "../../types/api-types";
 
 function Datalists() {
 
