@@ -39,10 +39,10 @@ function HomePage() {
 
   return (
     <Layout>
-      <h1 className="text-7xl mb-10 font-bold font-lato text-center">
+      <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-10 font-bold font-lato text-center">
         Explore our <span className="italic">best </span> Recipes!
       </h1>
-      <section className="grid relative grid-cols-1 md:grid-cols-6 xl:grid-cols-12 grid-flow-row gap-x-10 gap-y-14 py-20 px-5 max-w-screen-2xl mx-auto transition-all place-content-center">
+      <section className="relative flex flex-row flex-wrap gap-10 py-20 px-5 max-w-screen-2xl mx-auto transition-all place-content-center">
         <a
           href="#header"
           className="group fixed h-14 w-14 flex items-center justify-center bottom-0 right-0 z-40 bg-[#efa482] hover:scale-110 transition-transform m-5 rounded-full"
@@ -85,7 +85,7 @@ function HomePage() {
             return (
               <article
                 key={id}
-                className="min-h-[500px] md:min-w-[472px] w-full h-fit flex flex-col flex-nowrap gap-3 col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
+                className="min-h-[500px] w-full lg:w-[472px] flex-grow h-fit flex flex-col flex-nowrap gap-3 rounded-3xl overflow-hidden bg-white shadow-xl"
               >
                 {/* RECIPE IMAGE BLOCK */}
                 <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">
