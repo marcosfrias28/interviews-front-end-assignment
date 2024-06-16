@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
-import Datalists from "../components/Datalists";
+import Datalists from "../components/ui/Datalists";
 import useTitle from "../hooks/useTitle";
 
 function AddRecipePage() {
