@@ -90,12 +90,12 @@ export const recipeStore = create<recipeStoreTypes>()(
 
         retrieves the comments and ratings for each recipe and sets them in the state
         */
-      getRecipes: (_page, _limit) => {
+      getRecipes: async (_page, _limit) => {
         if (!_limit) _limit = 100;
+        let newRecipes: newRecipesType[] = [];
         const { setRecipes, recipes, setFinish, setLoading } = get();
         setLoading(true);
         setFinish(false);
-        console.log("getRecipes");
         axios
           .get(`${API_URL}/recipes?_page=${_page}&_limit=${_limit}`)
           .then((resRecipes) => {
@@ -103,24 +103,31 @@ export const recipeStore = create<recipeStoreTypes>()(
               setFinish(true);
               return;
             }
-            set(state => ({...state, recipes: [...recipes, ...resRecipes.data] }));
-            let newRecipes: newRecipesType[] = [];
+
             resRecipes.data.forEach((recipe: newRecipesType) => {
               axios
                 .get(`${API_URL}/recipes/${recipe.id}/comments`)
                 .then((resComments) => {
                   recipe.comments = resComments.data;
                   newRecipes.push(recipe);
-                });
+                })
+                .finally(() =>
+                  set((state) => ({
+                    ...state,
+                    recipes: [...recipes, ...newRecipes],
+                  }))
+                );
             });
-            set(state => ({...state, recipes: [...state.recipes, ...newRecipes] }));
           })
           .catch((e) => toast.error('Something went wrong getting "recipes"'))
-          .finally(() => {setLoading(false)});
+          .finally(() => {
+            setLoading(false);
+          });
       },
 
       getDiets: () => {
         const { setDiets } = get();
+
         axios
           .get(`${API_URL}/diets`)
           .then(({ data }) => setDiets(data))
