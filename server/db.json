@@ -367,26 +367,6 @@
       "image": "/uploads/1718441245095.jpg"
     },
     {
-      "id": "1718451374583",
-      "name": "Challah French Toast",
-      "ingredients": [
-        "4 large eggs",
-        "1 cup buttermilk",
-        "1/2 cup whole milk",
-        "1/2 teaspoon ground cinnamon",
-        "1/8 teaspoon nutmeg",
-        "1 teaspoon vanilla extract",
-        "4 tablespoons butter",
-        " divided",
-        "8 (1-inch thick) slices challah"
-      ],
-      "instructions": "If you need to keep the French toast warm after cooking place them in a warm (250ºF) oven on a baking sheet as they come out of the skillet, for up to 30 minutes. If you leave them warming in the oven for longer, they will begin to dry ou",
-      "cuisineId": "7",
-      "dietId": "2",
-      "difficultyId": "1",
-      "image": "/uploads/Challah.webp"
-    },
-    {
       "id": "1718457783454",
       "name": "Pastel En Hojas",
       "ingredients": [
@@ -585,6 +565,19 @@
       "dietId": "2",
       "difficultyId": "3",
       "image": "/uploads/chocolate-lava-cake.webp"
+    },
+    {
+      "id": "1718496592602",
+      "name": "pizza",
+      "ingredients": [
+        "2 mozarella",
+        "Olio d'oliva"
+      ],
+      "instructions": "",
+      "cuisineId": "1",
+      "dietId": "1",
+      "difficultyId": "1",
+      "image": "/uploads/1718496592598.webp"
     }
   ],
   "comments": [
