@@ -24,7 +24,7 @@ function HomePage() {
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } =
+  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } = 
     useRecipeStore();
   // --------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ function HomePage() {
             return (
               <article
                 key={id}
-                className="min-h-[500px] w-full h-fit col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
+                className="min-h-[500px] w-full h-fit  flex flex-col flex-nowrap gap-3 col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
               >
                 {/* RECIPE IMAGE BLOCK */}
                 <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">
@@ -107,13 +107,18 @@ function HomePage() {
                   name={cuisine?.name}
                   difficultyId={difficultyId}
                 />
-              <div className="flex items-center">
-                {stars > 0 && [...Array(stars)].map((_, i) => (
-                  <svg key={i} className="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-              </svg>
-                ))}
+
+              <section className="flex gap-4 items-center justify-center">
+              <Link to={`/recipes/${id}#comments`}>{`(${comments?.length > 0 ? comments?.length : '0'})`} Comments</Link>
+                <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                    <svg key={i} className={`w-4 h-4 ${stars >= i + 1 ? 'text-yellow-300' : 'text-zinc-500'} ms-1`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                </svg>
+                  )
+                )}
                 </div>
+              </section>
 
                 <Link className="" to={`/recipes/${id}`}>
                   <div className="flex flex-row items-center justify-center group text-center bg-[#fc7c4ab8] py-2 text-medium hover:text-white transition-colors text-black font-medium mt-5">
