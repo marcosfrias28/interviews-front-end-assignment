@@ -1,8 +1,11 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { Layout } from "../Layout";
 import Logo from "../components/icons/Logo";
+import useTitle from "../hooks/useTitle";
 
 function Page404() {
+    useTitle("404");
+
   return (
     <Layout>
       <section className="relative min-h-dvh flex justify-center items-center">
