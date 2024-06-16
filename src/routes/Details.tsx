@@ -3,7 +3,7 @@ import useRecipeStore from "../hooks/useRecipeStore";
 import { useEffect, useState } from "react";
 import { API_URL, Layout } from "../App";
 import axios from "axios";
-import { cuisineType, ingredientType, recipeType } from "../types/api-types";
+import { cuisineType, ingredientType, newRecipesType } from "../types/api-types";
 import { toast } from "sonner";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import { GetFlag } from "../components/ui/FlagIcons";
@@ -19,7 +19,7 @@ function DetailsPage() {
       .catch((e) => toast.error("Something went wrong"));
   }, []);
   const { name, cuisineId, ingredients, instructions, difficultyId, image } =
-    currentRecipe as unknown as recipeType;
+    currentRecipe as unknown as newRecipesType;
   return (
     <Layout>
       <article className="col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4">

@@ -24,7 +24,15 @@ export interface cuisineType {
 
 export type ingredientType = string;
 
-export interface recipeType {
+export interface commentType {
+  id: string;
+  recipeId: string;
+  comment: string;
+  rating: number;
+  date: Date;
+}
+
+export interface newRecipesType {
   id: string;
   name: string;
   ingredients: string[];
@@ -33,4 +41,5 @@ export interface recipeType {
   dietId: string;
   difficultyId: string;
   image: string;
+  comments: commentType[],
 }
