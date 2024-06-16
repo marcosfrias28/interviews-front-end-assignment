@@ -10,6 +10,7 @@ function useRecipeStore() {
   const diets = recipeStore((state) => state.diets);
   const searchResults = recipeStore((state) => state.searchResults);
   const loading = recipeStore((state) => state.loading);
+  const finish = recipeStore((state) => state.finish);
 
   //Setter functions
   const setList = recipeStore((state) => state.setList);
@@ -38,6 +39,7 @@ function useRecipeStore() {
     diets,
     searchResults,
     loading,
+    finish,
     setFilter,
     setLoading,
     setRecipes,
