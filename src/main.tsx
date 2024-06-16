@@ -8,6 +8,7 @@ import HomePage from './routes/Home'
 import SearchPage from './routes/Search'
 import DetailsPage from './routes/Details'
 import AddRecipePage from './routes/Add'
+import Page404 from './routes/404'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -17,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Route path='/search' element={<SearchPage />} />
       <Route path='/recipes/:id' element={<DetailsPage />} />
       <Route path='/add-recipe' element={<AddRecipePage />} />
-      <Route path='*' element={<h1>404</h1>} />
+      <Route path='*' element={<Page404></Page404>} />
       <></>
     </Routes>
   </BrowserRouter>
