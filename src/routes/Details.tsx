@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { useEffect, useState } from "react";
-import { API_URL, Layout } from "../App";
+import { API_URL, Layout } from "../Layout";
 import axios from "axios";
 import { cuisineType, ingredientType, newRecipesType } from "../types/api-types";
 import { toast } from "sonner";
@@ -11,18 +11,23 @@ import { GetFlag } from "../components/ui/FlagIcons";
 function DetailsPage() {
   const { id } = useParams();
   const { cuisines, recipes } = useRecipeStore();
-  const [currentRecipe, setCurrentRecipe] = useState([]);
+  const [currentRecipe, setCurrentRecipe] = useState<newRecipesType | {}>({});
   useEffect(() => {
     axios
       .get(`${API_URL}/recipes/${id}`)
-      .then((response) => setCurrentRecipe(response.data))
+      .then((resRecipe) => {
+        axios.get(`${API_URL}/recipes/${id}/comments`).then((resComments) => {
+          resRecipe.data.comments = resComments.data;
+        }).catch((e) => toast.error('Something went wrong getting "comments"')).finally(() => setCurrentRecipe(resRecipe.data))
+      })
       .catch((e) => toast.error("Something went wrong"));
   }, []);
-  const { name, cuisineId, ingredients, instructions, difficultyId, image } =
+
+  const { name, cuisineId, ingredients, comments, instructions, difficultyId, image } =
     currentRecipe as unknown as newRecipesType;
   return (
     <Layout>
-      <article className="col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4">
+      <article className="col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4 w-full md:w-[800px]">
         <h1 className="font-black text-7xl font-lato text-center mb-10">
           {name}
         </h1>

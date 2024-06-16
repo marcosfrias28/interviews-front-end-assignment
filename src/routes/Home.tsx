@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Layout } from "../App";
+import { Layout } from "../Layout";
 import { toast } from "sonner";
 import { Link, useHref } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
@@ -85,7 +85,7 @@ function HomePage() {
             return (
               <article
                 key={id}
-                className="min-h-[500px] w-full h-fit  flex flex-col flex-nowrap gap-3 col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
+                className="min-h-[500px] md:min-w-[472px] w-full h-fit flex flex-col flex-nowrap gap-3 col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
               >
                 {/* RECIPE IMAGE BLOCK */}
                 <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">

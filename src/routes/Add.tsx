@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../App";
+import { Layout } from "../Layout";
 import { formTypes, ingredientType } from "../types/form-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -203,7 +203,6 @@ function AddRecipePage() {
                     />
                   </div>
                 ))}
-                
                 <button
                   type="button"
                   onClick={addAnotherIngredient}

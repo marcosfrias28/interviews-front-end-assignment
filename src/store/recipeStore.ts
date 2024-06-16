@@ -1,7 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import { API_URL } from "../App";
+import { API_URL } from "../Layout";
 import { toast } from "sonner";
 import {
   cuisineType,
@@ -110,13 +110,10 @@ export const recipeStore = create<recipeStoreTypes>()(
                 .then((resComments) => {
                   recipe.comments = resComments.data;
                   newRecipes.push(recipe);
-                })
-                .finally(() =>
-                  set((state) => ({
-                    ...state,
-                    recipes: [...recipes, ...newRecipes],
-                  }))
-                );
+                }).catch(() => toast.error('Error getting comments')).finally(() => {set((state) => ({
+                  ...state,
+                  recipes: [...recipes, ...newRecipes],
+                }));});
             });
           })
           .catch((e) => toast.error('Something went wrong getting "recipes"'))

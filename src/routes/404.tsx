@@ -1,5 +1,5 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { Layout } from "../App";
+import { Layout } from "../Layout";
 import Logo from "../components/icons/Logo";
 
 function Page404() {
