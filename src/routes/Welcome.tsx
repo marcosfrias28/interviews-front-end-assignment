@@ -5,7 +5,6 @@ import useTitle from "../hooks/useTitle";
 function WelcomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Welcome");
-
   return (
     <section className="relative min-h-dvh flex justify-center items-center">
       <div className="absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#f6cb54_100%)]" />
@@ -17,7 +16,7 @@ function WelcomePage() {
         <div className="mr-auto place-self-center lg:col-span-5">
           <div className="flex items-start gap-4 flex-nowrap mb-4">
             <Logo />
-            <h1 className="self-center text-4xl font-black whitespace-nowrap">
+            <h1 className="self-center text-4xl font-lato font-black whitespace-nowrap">
               RecipeBook
             </h1>
           </div>
