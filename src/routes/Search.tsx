@@ -115,25 +115,25 @@ function SearchPage() {
           <p className="text-center">
             No recipes found by your search input, try again
           </p>
-        )}
-        {searchResults.length > 0 &&
-          searchResults.map((recipe, i) => {
-            if (!recipe.name) return toast.error("Something went wrong");
-            const {
-              id,
-              name,
-              cuisineId,
-              ingredients,
-              instructions,
-              difficultyId,
-              image,
-            } = recipe;
-            const cuisine = cuisines?.find(
-              (cuisine) => cuisine.id === cuisineId
-            );
-            return (
-              <article
-                key={id}
+          )}
+          {searchResults.length > 0 &&
+            searchResults.map((recipe, i) => {
+              if (!recipe.name) return toast.error("Something went wrong");
+              const {
+                id,
+                name,
+                cuisineId,
+                ingredients,
+                instructions,
+                difficultyId,
+                image,
+              } = recipe;
+              const cuisine = cuisines?.find(
+                (cuisine) => cuisine.id === cuisineId
+              );
+              return (
+                <article
+                  key={id}
                 className="flex flex-col lg:flex-row flex-nowrap max-w-screen-xl bg-zinc-100 rounded-xl p-5 "
               >
                 <div className="relative w-full h-full max-h-96 max-w-2xl overflow-hidden rounded-xl lg:rounded-se-full lg:rounded-ee-full">
