@@ -1,76 +1,94 @@
 import { useEffect, useState } from "react";
 import { Layout } from "../App";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
-import { Flag } from "../components/ui/FlagIcons";
-import DifficultyLabel from "../components/ui/DifficultyLabel";
+import { Link, useHref } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import useRecipeStore from "../hooks/useRecipeStore";
+import { newRecipesType } from "../types/api-types";
+import DifficultyBlock from "../components/ui/DifficultyBlock";
 
-const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5);
+// Function to see random positions of the recipes every time the page is loaded
+const shuffle = (arr: newRecipesType[]) =>
+  [...arr].sort(() => Math.random() - 0.5);
+const itemsPerPage = 9;
 
 function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
+
+  //Local states
+  const [currentPage, setCurrentPage] = useState(1);
+
   /*
-  
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { loading, recipes, cuisines, getRecipes, getCuisines } =
+  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } =
     useRecipeStore();
-
   // --------------------------------------------------------------------------
+
   // Fetching all recipes and cuisines on component mount
-
-  const [shuffledRecipes, setShuffledRecipes] = useState(shuffle(recipes));
-
   useEffect(() => {
     getCuisines();
-    getRecipes(12, 1);
   }, []);
 
   useEffect(() => {
-    setShuffledRecipes(shuffle(recipes));
-  }, [recipes]);
+    getRecipes(currentPage, itemsPerPage);
+  }, [currentPage]);
 
   return (
     <Layout>
-      <h1 className="text-7xl mb-10 font-bold text-center">
+      <h1 className="text-7xl mb-10 font-bold font-lato text-center">
         Explore our <span className="italic">best </span> Recipes!
       </h1>
-      <section className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-12 grid-flow-row gap-x-5 gap-y-20 py-20 max-w-screen-2xl mx-auto transition-all place-content-center">
-        {loading && shuffledRecipes.length === 0 && (
-          <div className="w-36 h-36 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto" />
-        )}
-        {shuffledRecipes.length === 0 && (
-          <p className="col-span-full text-center">
-            No recipes found, Please contact the admin... It cannot be possible
-          </p>
-        )}
+      <section className="grid relative grid-cols-1 md:grid-cols-6 xl:grid-cols-12 grid-flow-row gap-x-10 gap-y-14 py-20 px-5 max-w-screen-2xl mx-auto transition-all place-content-center">
+        <a
+          href="#header"
+          className="group fixed h-14 w-14 flex items-center justify-center bottom-0 right-0 z-40 bg-[#efa482] hover:scale-110 transition-transform m-5 rounded-full"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="transparent"
+            width={48}
+            height={48}
+            viewBox="0 0 24 24"
+            className=" rotate-180 group-hover:-translate-y-2 transition-all group-hover:scale-110 stroke-black group-hover:stroke-white"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="m7 10 5 5 5-5"
+            />
+          </svg>
+        </a>
         {!loading &&
-          shuffledRecipes.length > 0 &&
-          shuffledRecipes.map((recipe, i) => {
-            if (!recipe.name) return toast.error("Something went wrong");
+          recipes?.length > 0 &&
+          recipes?.map((recipe, i) => {
             const {
               id,
               name,
               cuisineId,
-              ingredients,
-              instructions,
+              comments,
               difficultyId,
               image,
             } = recipe;
+            let stars = 0;
+            if (comments?.length > 0) {
+              const sum = comments.reduce((acc, comment) => acc + comment.rating, 0);
+              stars = Math.floor(sum / comments.length);
+             }
             const cuisine = cuisines?.find(
               (cuisine) => cuisine.id === cuisineId
             );
             return (
               <article
                 key={id}
-                className="col-span-1 md:col-span-3 xl:col-span-4 row-span-1 px-10 sm:px-4 lg:px-4"
+                className="min-h-[500px] w-full h-fit col-span-1 md:col-span-3 xl:col-span-4 row-span-1 rounded-3xl overflow-hidden bg-white shadow-xl"
               >
-                <div className="relative w-full rounded-lg h-full max-h-96 overflow-hidden mb-4">
+                {/* RECIPE IMAGE BLOCK */}
+                <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">
                   <Link to={`/recipes/${id}`}>
                     <img
                       className="h-full w-full object-cover object-center hover:scale-105 transition-all"
@@ -78,42 +96,91 @@ function HomePage() {
                       alt={name}
                     />
                   </Link>
-                  <div className="absolute z-10 bottom-0 left-1/2 flex gap-5 m-auto -translate-x-1/2 mb-2">
-                    <span className="flex items-center text-nowrap justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto">
-                      <Flag nationality={cuisineId} /> {cuisine?.name}
-                    </span>
-                    <span className="flex items-center justify-center gap-2 text-sm font-medium border border-white text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto">
-                      Difficulty: <DifficultyLabel difficulty={difficultyId} />
-                    </span>
-                  </div>
                 </div>
-                <h2 className="font-semibold text-2xl font-sans mb-4 text-center">
+                <h2 className="font-bold text-2xl font-sans mb-4 text-center">
                   {name}
                 </h2>
-                <div className="flex justify-between mb-7">
-                  <ul className="w-1/2">
-                    <li className="text-center font-semibold text-sm italic">
-                      Ingredients
-                    </li>
-                    {ingredients.map((ingredient: string, i: number) => (
-                      <li className=" list-inside list-item list-disc" key={i}>
-                        {ingredient}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className=" bg-black w-[3px] mx-5" />
-                  <div className="w-1/2">
-                    <h3 className="text-center font-semibold text-sm italic">
-                      {" "}
-                      instructions
-                    </h3>
-                    <p>{instructions}</p>
-                  </div>
+                {/* RECIPE DIFFICULTY BLOCK */}
+                <DifficultyBlock
+                  className="flex items-center justify-center m-auto mb-2 w-fit gap-2"
+                  cuisineId={cuisineId}
+                  name={cuisine?.name}
+                  difficultyId={difficultyId}
+                />
+              <div className="flex items-center">
+                {stars > 0 && [...Array(stars)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+              </svg>
+                ))}
                 </div>
+
+                <Link className="" to={`/recipes/${id}`}>
+                  <div className="flex flex-row items-center justify-center group text-center bg-[#fc7c4ab8] py-2 text-medium hover:text-white transition-colors text-black font-medium mt-5">
+                    <span>See Recipe</span>
+                    <span className="group-hover:rotate-0 rotate-45 transition-transform">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-black group-hover:stroke-white transition-all"
+                        width={24}
+                        widths={24}
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 17 17 7m0 0H8m9 0v9"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </Link>
               </article>
             );
           })}
       </section>
+      <section
+        id="loading"
+        className="w-full h-24 flex justify-center items-center"
+      >
+        {loading && (
+          <div className="w-24 h-24 col-span-full border-black border-t-4 border-b-4 rounded-full animate-spin mx-auto" />
+        )}
+      </section>
+      {finish && (
+        <>
+          <div className="text-center font-bold animate-bounce flex flex-col">
+            <span>No more recipes found...</span>
+          </div>
+        </>
+      )}
+      <div
+        className={`${
+          finish ? "pointer-events-none" : ""
+        } flex flex-row justify-center items-center pb-20`}
+      >
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          className="group load-more-button bg-[#fc7c4a] p-3 text-xl hover:scale-110 transition-transform text-white font-lato rounded-full mx-auto text-nowrap"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="transparent"
+            width={48}
+            height={48}
+            viewBox="0 0 24 24"
+            className=" group-hover:translate-y-2 transition-all group-hover:scale-110 stroke-black group-hover:stroke-white"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="m7 10 5 5 5-5"
+            />
+          </svg>
+        </button>
+      </div>
     </Layout>
   );
 }
