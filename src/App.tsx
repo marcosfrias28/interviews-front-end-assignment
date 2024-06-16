@@ -1,16 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
-import SearchIcon from "./components/Search";
+import SearchIcon from "./components/icons/search";
 import { Toaster } from "sonner";
 import Logo from "./components/icons/Logo";
-import Search from "./components/Search";
+import Search from "./components/ui/Search";
 import React from "react";
 
 export const API_URL = import.meta.env.VITE_ENDPOINT_BACKEND;
 
-export function Layout(props: { children: React.ReactNode }) {
+export function Layout(props: { children: React.ReactNode }) { 
   return (
     <>
-      <header className="bg-gradient-to-b relative from-0% from-[#fc7c4ab8] to-100% to-[#f7f7f7] h-56">
+      <header id="header" className="bg-gradient-to-b relative from-0% from-[#fc7c4ab8] to-100% to-[#f7f7f7] h-56">
         <nav className="max-w-screen-xl flex flex-wrap md:flex-nowrap items-center pt-7 justify-between mx-auto p-4 gap-10">
           <Link
             to="/home"
@@ -152,7 +152,7 @@ export function Layout(props: { children: React.ReactNode }) {
         </nav>
       </header>
 
-      <main className="min-h-dvh bg-[#f7f7f7]">{props.children}</main>
+      <main className="min-h-dvh h-auto bg-[#f7f7f7] grid items-center justify-center">{props.children}</main>
 
       <footer className="bg-white rounded-lg shadow dark:bg-gray-200 relative bottom-0 w-full">
         <div className="w-full max-w-screen-xl mx-auto md:flex p-4 md:items-center md:justify-between">
