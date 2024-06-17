@@ -11,6 +11,7 @@ import {
   filterType,
 } from "../../types/api-types";
 import Datalists from "./Datalists";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   mobile?: boolean;
@@ -21,6 +22,7 @@ interface Props {
 function Search({ mobile }: Props) {
   //Local states, used only in this component
   const [input, setInput] = useState<string>("");
+  const navigate = useNavigate();
 
   /*
   Getting all necessary states and functions from the store using zustand
@@ -37,6 +39,7 @@ function Search({ mobile }: Props) {
     filter,
     setFilter,
     searchResults,
+    getCuisines,
     cuisines,
   } = useRecipeStore();
   // ----------------------------------------------------------------------------------------------------------------------
@@ -44,6 +47,7 @@ function Search({ mobile }: Props) {
   // Fetching all recipes and cuisines on component mount
   useEffect(() => {
     getDiets();
+    getCuisines();
     getDifficulties();
   }, []);
 
@@ -76,7 +80,7 @@ function Search({ mobile }: Props) {
     } else if (list === "dietId" && diet) {
       setFilter({ cuisineId: "", q: "", difficultyId: "", dietId: diet.id });
     }
-
+    navigate("/search");
     setInput("");
   }
 
@@ -104,7 +108,21 @@ function Search({ mobile }: Props) {
         onChange={(e) => setInput(e.target.value)}
       />
 
-      <Datalists />
+      <datalist id="cuisineId">
+        {cuisines.map((cuisine: cuisineType) => (
+          <option key={cuisine.id} value={cuisine.name} />
+        ))}
+      </datalist>
+      <datalist id="difficultyId">
+        {difficulties.map((difficulty: difficultyType) => (
+          <option key={difficulty.id} value={difficulty.name} />
+        ))}
+      </datalist>
+      <datalist id="dietId">
+        {diets.map((diet: dietType) => (
+          <option key={diet.id} value={diet.name} />
+        ))}
+      </datalist>
 
       {/* DESKTOP FILTER SELECT */}
       <div className="absolute inset-y-0 end-0 bg-transparent ">

@@ -5,8 +5,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
-import Datalists from "../components/ui/Datalists";
 import useTitle from "../hooks/useTitle";
+import { cuisineType, dietType, difficultyType } from "../types/api-types";
 
 function AddRecipePage() {
   const navigate = useNavigate();
@@ -14,7 +14,14 @@ function AddRecipePage() {
 
   const [id, setId] = useState<string>("");
 
-  const {difficulties, getDifficulties, cuisines, getCuisines, diets, getDiets} = useRecipeStore()
+  const {
+    difficulties,
+    getDifficulties,
+    cuisines,
+    getCuisines,
+    diets,
+    getDiets,
+  } = useRecipeStore();
 
   const [formInputs, setFormInputs] = useState<formTypes>({
     name: "",
@@ -31,7 +38,6 @@ function AddRecipePage() {
     getCuisines();
     getDiets();
   }, []);
-
 
   function handleChangeIngredient(index: number, value: string) {
     const newIngredients = [...formInputs.ingredients];
@@ -53,7 +59,7 @@ function AddRecipePage() {
     if (e.target.files) {
       setFormInputs((prevState) => ({
         ...prevState,
-        image: e.target.files && e?.target?.files[0] || null,
+        image: (e.target.files && e?.target?.files[0]) || null,
       }));
     }
   };
@@ -89,7 +95,9 @@ function AddRecipePage() {
       image,
     } = formInputs;
 
-    const DifficultyId = difficulties.find((diff) => diff.name === difficultyId)?.id;
+    const DifficultyId = difficulties.find(
+      (diff) => diff.name === difficultyId
+    )?.id;
     if (!DifficultyId) {
       return toast.error("Please select a difficulty");
     }
@@ -97,7 +105,9 @@ function AddRecipePage() {
     if (!DietId) {
       return toast.error("Please select a diet");
     }
-    const CuisineId = cuisines.find((cuisine) => cuisine.name === cuisineId)?.id;
+    const CuisineId = cuisines.find(
+      (cuisine) => cuisine.name === cuisineId
+    )?.id;
     if (!CuisineId) {
       return toast.error("Please select a cuisine");
     }
@@ -120,7 +130,7 @@ function AddRecipePage() {
         },
       })
       .then((res) => {
-        setId(res.data.id)
+        setId(res.data.id);
         navigate(`/recipe/${res.data.id}`);
         toast.success(`Recipe Created`);
       })
@@ -209,9 +219,19 @@ function AddRecipePage() {
                   onClick={addAnotherIngredient}
                   className="mb-2 text-sm font-medium bg-white text-black rounded-full px-3 py-1.5 border-2 border-green-500"
                 >
-                  <span className="flex flex-nowrap items-center justify-center">                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={24} height={24} viewBox="0 0 24 24">
-    <path stroke="#000" d="M6 12h12m-6-6v12" />
-  </svg> Add ingredient</span>
+                  <span className="flex flex-nowrap items-center justify-center">
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke="#000" d="M6 12h12m-6-6v12" />
+                    </svg>{" "}
+                    Add ingredient
+                  </span>
                 </button>
               </div>
               <div className="w-full">
@@ -286,7 +306,14 @@ function AddRecipePage() {
               </div>
               <div className="w-full">
                 <label htmlFor="image">Recipe Image</label>
-                <input onChange={handleChangeImage} required type="file" name="image" id="image" accept="image/*" />
+                <input
+                  onChange={handleChangeImage}
+                  required
+                  type="file"
+                  name="image"
+                  id="image"
+                  accept="image/*"
+                />
               </div>
             </div>
             <button
@@ -295,7 +322,21 @@ function AddRecipePage() {
             >
               Add Recipe
             </button>
-            <Datalists />
+            <datalist id="cuisineId">
+              {cuisines.map((cuisine: cuisineType) => (
+                <option key={cuisine.id} value={cuisine.name} />
+              ))}
+            </datalist>
+            <datalist id="difficultyId">
+              {difficulties.map((difficulty: difficultyType) => (
+                <option key={difficulty.id} value={difficulty.name} />
+              ))}
+            </datalist>
+            <datalist id="dietId">
+              {diets.map((diet: dietType) => (
+                <option key={diet.id} value={diet.name} />
+              ))}
+            </datalist>
           </form>
         </div>
       </section>
