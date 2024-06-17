@@ -25,7 +25,6 @@ GET POST PUT PATCH DELETE OPTIONS
 
 
 
-
 ## Demo
 
 https://recipeboook.vercel.app/
@@ -35,11 +34,12 @@ https://recipeboook.vercel.app/
 
 ## Installation
 
-Installalo con NPM, PNPM Yarn
+Installalo con NPM O PNPM
 
 ```bash
-  npm install progetto
   cd progetto
+  pnpm install
+  npm install
 ```
     
     
