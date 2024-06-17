@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import { GetFlag } from "../components/ui/FlagIcons";
 import useTitle from "../hooks/useTitle";
+import moment from "moment";
 
 function DetailsPage() {
   const { id } = useParams();
@@ -98,7 +99,7 @@ function DetailsPage() {
             </div>
         </article>
         <section className="bg-white rounded-b-3xl rounded-tr-3xl dark:bg-gray-900 py-8 px-10 w-full">
-          <div className="max-w-2xl h-full max-h-[500px] mx-auto px-4 overflow-clip overflow-x-hidden">
+          <div className="max-w-2xl h-full max-h-[500px] mx-auto px-4 overflow-scroll overflow-x-hidden">
             {comments?.length > 0 && comments.map(comment => (
               <article className="p-6 mb-3 text-base bg-white border-b border-gray-200 dark:border-gray-700 dark:bg-gray-900">
               <footer className="flex justify-between items-center mb-2">
@@ -112,8 +113,10 @@ function DetailsPage() {
                     Username
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    <time dateTime="2022-03-12" title="March 12th, 2022">
-                      {comment.date}
+                    <time>
+                      {
+                        moment(comment.date).format("LLL")
+                      }
                     </time>
                   </p>
                 </div>
