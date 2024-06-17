@@ -7,7 +7,7 @@ const SelectButton = {
   2: <Medium />,
   3: <Hard />
 }
-function DifficultyLabel ({ difficulty }: { difficulty: number }) {
+function DifficultyLabel ({ difficulty }: any) {
   return SelectButton[difficulty as 1 | 2 | 3]
 }
 
