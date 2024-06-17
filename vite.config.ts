@@ -5,6 +5,6 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   define: {
-    "process.env.API_URL": JSON.stringify("https://recipe-api-production.up.railway.app"),
+    "process.env.API_URL": JSON.stringify("http://localhost:8080"),
   },
 });
