@@ -565,19 +565,6 @@
       "dietId": "2",
       "difficultyId": "3",
       "image": "/uploads/chocolate-lava-cake.webp"
-    },
-    {
-      "id": "1718496592602",
-      "name": "pizza",
-      "ingredients": [
-        "2 mozarella",
-        "Olio d'oliva"
-      ],
-      "instructions": "",
-      "cuisineId": "1",
-      "dietId": "1",
-      "difficultyId": "1",
-      "image": "/uploads/1718496592598.webp"
     }
   ],
   "comments": [
