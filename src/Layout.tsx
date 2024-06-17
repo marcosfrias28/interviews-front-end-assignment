@@ -104,7 +104,7 @@ export function Layout(props: { children: React.ReactNode }) {
                       isActive ? "text-red-500" : ""
                     }
                     data-popover-target="popover-default"
-                    to="/search"
+                    to="/search#header"
                   >
                     <div className="flex flex-col justify-center items-center">
                       <svg
