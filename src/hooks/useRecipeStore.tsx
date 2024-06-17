@@ -23,6 +23,7 @@ function useRecipeStore() {
   const setDifficulties = recipeStore((state) => state.setDifficulties);
   const setSearchResults = recipeStore((state) => state.setSearchResults);
   const setDiets = recipeStore((state) => state.setDiets);
+  const setFinish = recipeStore((state) => state.setFinish);
 
   //Getter functions
   const getRecipes = recipeStore((state) => state.getRecipes);
@@ -44,6 +45,7 @@ function useRecipeStore() {
     finish,
     setCurrentPage,
     setList,
+    setFinish,
     setFilter,
     setLoading,
     setRecipes,

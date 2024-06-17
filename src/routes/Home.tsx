@@ -21,13 +21,14 @@ function HomePage() {
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
- const { currentPage, setRecipes, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
+ const { currentPage, setFinish, setRecipes, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
  useRecipeStore();
  // --------------------------------------------------------------------------
 
  useEffect(() => {
   setRecipes([])
   setCurrentPage(1);
+  setFinish(false);
   getCuisines();
   getRecipes(currentPage, itemsPerPage);
 }, []);
@@ -35,6 +36,8 @@ function HomePage() {
 useEffect(() => {
   if (currentPage > 1) {
     handleClick();
+  } else if (finish){
+    setCurrentPage(1);
   }
 }, [currentPage]);
 
