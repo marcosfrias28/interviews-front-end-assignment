@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../Layout";
+import { API_URL, Layout } from "../Layout";
 import { formTypes, ingredientType } from "../types/form-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -114,7 +114,7 @@ function AddRecipePage() {
     }
 
     axios
-      .post("http://localhost:8080/recipes", formData, {
+      .post(`${API_URL}/recipes`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,6 +1,6 @@
 import { MouseEventHandler, useEffect, useState } from "react";
 import useRecipeStore from "../hooks/useRecipeStore";
-import { Layout } from "../Layout";
+import { API_URL, Layout } from "../Layout";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { GetFlag } from "../components/ui/FlagIcons";
@@ -156,7 +156,7 @@ function SearchPage() {
                   <div className="relative w-full h-96 overflow-hidden rounded-xl lg:rounded-se-full lg:rounded-ee-full">
                     <img
                       className=" object-cover object-center w-full"
-                      src={`http://localhost:8080${image}`}
+                      src={`${API_URL}${image}`}
                       alt={name}
                     />
                     <div className="absolute z-10 bottom-0 left-0 flex gap-5 m-3">

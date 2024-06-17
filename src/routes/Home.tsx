@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Layout } from "../Layout";
+import { API_URL, Layout } from "../Layout";
 import { toast } from "sonner";
 import { Link, useHref } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
@@ -39,10 +39,8 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    setCurrentRecipes(prevState => [...prevState, ...recipes]);
+    setCurrentRecipes(recipes);
   }, [recipes]);
-
-
 
   return (
     <Layout>
@@ -99,7 +97,7 @@ function HomePage() {
                   <Link to={`/recipes/${id}`}>
                     <img
                       className="h-full w-full object-cover object-center hover:scale-105 transition-all"
-                      src={`http://localhost:8080${image}`}
+                      src={`${API_URL}${image}`}
                       alt={name}
                     />
                   </Link>
