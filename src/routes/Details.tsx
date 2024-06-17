@@ -21,11 +21,13 @@ function DetailsPage() {
   const [created, setCreated] = useState(false);
   const [comment, setComment] = useState({
     comment: "",
-    rating: 0,
+    rating: 4,
     date: new Date(),
   });
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    console.log(e.target.name, e.target.value);
+    
     setComment({ ...comment, [e.target.name]: e.target.value });
   }
 
@@ -46,10 +48,10 @@ function DetailsPage() {
 
   function handleSumbit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    
     axios
       .post(`${API_URL}/recipes/${id}/comments`, comment)
-      .then(() => {
+      .then((res) => {
+        console.log(res.data);
         setCreated(!created);
         toast.success("Comment added successfully");
         setComment({ ...comment, comment: "" });
@@ -71,10 +73,10 @@ function DetailsPage() {
 
   return (
     <Layout>
-      <h1 className="font-black flex-grow-0 text-7xl font-lato text-center mb-10">
+      <h1 className="font-black flex-grow-0 pb-10 text-6xl font-lato text-center">
         {name}
       </h1>
-      <section className="bg-zinc-100 rounded-3xl shadow-2xl flex xl:flex-row flex-col mt-10 mb-20 w-full h-fit max-w-screen-2xl">
+      <section className="bg-zinc-100 rounded-3xl shadow-2xl flex xl:flex-row flex-col mt-10 mb-44 w-full lg:w-[1550px] lg:h-[1000px] lg:max-h-[1000px] max-w-screen-2xl">
         <article className="sm:px-4 lg:px-4 w-full h-fit">
           <div className="relative w-full rounded-lg h-full max-h-[800px] overflow-hidden mb-4">
             <img
@@ -96,9 +98,9 @@ function DetailsPage() {
               </span>
             </div>
           </div>
-          <div className="flex justify-between mb-7">
-            <ul className="w-1/2">
-              <h2 className="text-center font-semibold font-lato text-lg lg:text-2xl">
+          <div className="flex flex-col justify-between mb-7">
+            <ul className="w-full">
+              <h2 className="text-center font-semibold font-lato text-lg lg:text-2xl mb-5">
                 Ingredients
               </h2>
               {ingredients?.map((ingredient: ingredientType, index) => (
@@ -107,12 +109,11 @@ function DetailsPage() {
                 </li>
               ))}
             </ul>
-            <div className=" bg-black w-[3px] mx-5" />
-            <div className="w-1/2">
-              <h3 className="text-center font-semibold text-sm italic">
+            <div className="w-full text-center">
+              <h3 className="font-semibold font-lato text-lg lg:text-2xl mb-5">
                 instructions
               </h3>
-              <p>{instructions}</p>
+              <p className="w-full max-w-[800px] mx-auto">{instructions}</p>
             </div>
           </div>
         </article>
@@ -137,58 +138,6 @@ function DetailsPage() {
                       }
                     </time>
                   </p>
-                </div>
-                <button
-                  id="dropdownComment3Button"
-                  data-dropdown-toggle="dropdownComment3"
-                  className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  type="button"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 16 3"
-                  >
-                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                  </svg>
-                  <span className="sr-only">Comment settings</span>
-                </button>
-                {/* <!-- Dropdown menu --> */}
-                <div
-                  id="dropdownComment3"
-                  className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                >
-                  <ul
-                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby="dropdownMenuIconHorizontalButton"
-                  >
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Edit
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Remove
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Report
-                      </a>
-                    </li>
-                  </ul>
                 </div>
               </footer>
               <p className="text-gray-500 dark:text-gray-400">
@@ -230,17 +179,16 @@ function DetailsPage() {
             <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <label htmlFor="comment" className="sr-only">
                 Your comment
-              </label>q
+              </label>
               <textarea
                 id="comment"
                 onChange={handleChange}
                 rows={6}
+                name="comment"
                 className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                 placeholder="Leave a comment about this recipe..."
                 required
               ></textarea>
-              
-              <input onChange={handleChange} type="range" name="rating" max={5} min={1} defaultValue={1} />
             </div>
             <button
               type="submit"
