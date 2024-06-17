@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // Set up JSON Server middleware
 const router = jsonServer.router('db.json');
