@@ -39,7 +39,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    setCurrentRecipes(recipes);
+    setCurrentRecipes(state => [...state, ...recipes, ]);
   }, [recipes]);
 
   return (
@@ -96,6 +96,7 @@ function HomePage() {
                 <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">
                   <Link to={`/recipes/${id}`}>
                     <img
+                    loading="lazy"
                       className="h-full w-full object-cover object-center hover:scale-105 transition-all"
                       src={`${API_URL}${image}`}
                       alt={name}
