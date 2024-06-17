@@ -1,12 +1,11 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect } from "react";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { API_URL, Layout } from "../Layout";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GetFlag } from "../components/ui/FlagIcons";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import useTitle from "../hooks/useTitle";
-import { filterType } from "../types/api-types";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
 
 function SearchPage() {
@@ -127,7 +126,7 @@ function SearchPage() {
           </div>
         </aside>
 
-        <section className="flex flex-col w-full items-center lg:w-[1500px] overflow-scroll overflow-x-hidden col-span-[100%] text-center gap-10 drop-shadow-lg max-w-screen-2xl">
+        <section className="flex flex-col w-full items-center lg:w-[1500px] overflow-scroll overflow-x-hidden col-span-[100%] text-center gap-10 drop-shadow-lg max-w-screen-2xl py-20">
           {searchResults.length === 0 && (
             <p className="mx-auto text-center">
               No recipes found by your search inputs, try again
