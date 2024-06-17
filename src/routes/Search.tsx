@@ -7,6 +7,7 @@ import { GetFlag } from "../components/ui/FlagIcons";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import useTitle from "../hooks/useTitle";
 import { filterType } from "../types/api-types";
+import DifficultyBlock from "../components/ui/DifficultyBlock";
 
 function SearchPage() {
   // Setting the title of the page with simple custom hook
@@ -126,7 +127,7 @@ function SearchPage() {
           </div>
         </aside>
 
-        <section className="flex flex-col w-full overflow-scroll overflow-x-hidden col-span-[100%] text-center gap-10 drop-shadow-lg max-w-screen-2xl">
+        <section className="flex flex-col w-full items-center lg:w-[1500px] overflow-scroll overflow-x-hidden col-span-[100%] text-center gap-10 drop-shadow-lg max-w-screen-2xl">
           {searchResults.length === 0 && (
             <p className="mx-auto text-center">
               No recipes found by your search inputs, try again
@@ -151,24 +152,14 @@ function SearchPage() {
                 <article
                   key={id}
                   onClick={() => handleClickRecipe(id)}
-                  className="flex flex-col cursor-pointer hover:scale-105 transition-transform lg:flex-row flex-nowrap max-w-screen-xl bg-zinc-100 rounded-xl p-5 "
+                  className="flex flex-col w-full h-96 cursor-pointer hover:scale-105 transition-transform lg:flex-row flex-nowrap max-w-screen-xl bg-zinc-100 rounded-xl"
                 >
-                  <div className="relative w-full h-96 overflow-hidden rounded-xl lg:rounded-se-full lg:rounded-ee-full">
+                  <div className="relative w-full min-w-[600px] lg:w-[600px] h-96 overflow-hidden rounded-xl lg:rounded-se-full lg:rounded-ee-full">
                     <img
                       className=" object-cover object-center w-full"
                       src={`${API_URL}${image}`}
                       alt={name}
                     />
-                    <div className="absolute z-10 bottom-0 left-0 flex gap-5 m-3">
-                      <span className="flex items-center text-nowrap justify-center gap-2 text-sm font-medium text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto">
-                        <GetFlag nationality={cuisineId} />
-                        <span className="hidden lg:block">{cuisine?.name}</span>
-                      </span>
-                      <span className="flex items-center justify-center gap-2 text-sm font-medium text-white bg-gray-500/20 backdrop-blur-lg py-1 rounded-full px-3 italic mx-auto">
-                        <span className="hidden lg:block">Difficulty: </span>
-                        <DifficultyLabel difficulty={difficultyId} />
-                      </span>
-                    </div>
                   </div>
                   <aside>
                     <h2 className="font-semibold text-2xl font-sans text-center ">
@@ -196,6 +187,7 @@ function SearchPage() {
                         <p>{instructions}</p>
                       </div>
                     </div>
+                    <DifficultyBlock cuisineId={cuisineId} name={name} difficultyId={difficultyId}/>
                   </aside>
                 </article>
               );
