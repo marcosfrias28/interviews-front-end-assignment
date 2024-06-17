@@ -112,7 +112,7 @@ export const recipeStore = create<recipeStoreTypes>()(
                   newRecipes.push(recipe);
                 }).catch(() => toast.error('Error getting comments')).finally(() => {set((state) => ({
                   ...state,
-                  recipes: [...recipes, ...newRecipes],
+                  recipes: [...newRecipes],
                 }));});
             });
           })

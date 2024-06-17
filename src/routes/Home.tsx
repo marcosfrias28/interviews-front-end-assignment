@@ -18,24 +18,31 @@ function HomePage() {
 
   //Local states
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentRecipes, setCurrentRecipes] = useState<newRecipesType[] | []>([]);
 
   /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } = 
+  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } =
     useRecipeStore();
   // --------------------------------------------------------------------------
 
   // Fetching all recipes and cuisines on component mount
   useEffect(() => {
+    getRecipes(currentPage, itemsPerPage);
+  }, [currentPage]);
+
+  useEffect(() => {
     getCuisines();
   }, []);
 
   useEffect(() => {
-    getRecipes(currentPage, itemsPerPage);
-  }, [currentPage]);
+    setCurrentRecipes(prevState => [...prevState, ...recipes]);
+  }, [recipes]);
+
+
 
   return (
     <Layout>
@@ -64,8 +71,8 @@ function HomePage() {
           </svg>
         </a>
         {!loading &&
-          recipes?.length > 0 &&
-          recipes?.map((recipe, i) => {
+          currentRecipes?.length > 0 &&
+          currentRecipes?.map((recipe, i) => {
             const {
               id,
               name,
