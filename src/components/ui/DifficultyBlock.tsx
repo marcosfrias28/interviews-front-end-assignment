@@ -1,6 +1,5 @@
 import DifficultyLabel from "./DifficultyLabel";
 import { GetFlag } from "./FlagIcons";
-import React from "react";
 
 interface Props {
   className?: string;

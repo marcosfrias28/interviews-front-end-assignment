@@ -6,7 +6,6 @@ import useTitle from "../hooks/useTitle";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { newRecipesType } from "../types/api-types";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
-import React from "react";
 
 // Function to see random positions of the recipes every time the page is loaded
 const shuffle = (arr: newRecipesType[]) =>

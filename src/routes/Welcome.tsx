@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../components/icons/Logo";
 import useTitle from "../hooks/useTitle";
-import React from "react";
 
 function WelcomePage() {
   // Setting the title of the page with simple custom hook
