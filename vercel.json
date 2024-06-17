@@ -1,0 +1,12 @@
+
+  {
+    "version": 2,
+    "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/search", "destination": "/index.html" },
+    { "source": "/recipes/:id", "destination": "/index.html" },
+    { "source": "/add-recipe", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+  }
