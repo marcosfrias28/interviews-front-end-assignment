@@ -21,13 +21,15 @@ function HomePage() {
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
- const { currentPage, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
+ const { currentPage, setRecipes, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
  useRecipeStore();
  // --------------------------------------------------------------------------
 
  useEffect(() => {
+  setRecipes([])
+  setCurrentPage(1);
   getCuisines();
-  if (currentPage === 1) getRecipes(currentPage, itemsPerPage);
+  getRecipes(currentPage, itemsPerPage);
 }, []);
 
 useEffect(() => {

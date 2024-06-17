@@ -13,6 +13,7 @@ import { recipeStoreTypes } from "../types/recipe-store";
 
 export const recipeStore = create<recipeStoreTypes>()(
   devtools(
+    persist(
     (set, get) => ({
       /*
         "q" string represents the search query for
@@ -136,4 +137,4 @@ export const recipeStore = create<recipeStoreTypes>()(
     }),
     { name: "recipeStore" }
   )
-);
+));

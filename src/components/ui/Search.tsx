@@ -36,6 +36,7 @@ function Search({ mobile }: Props) {
     getDifficulties,
     filter,
     setFilter,
+    getRecipeBy,
     searchResults,
     getCuisines,
     cuisines,
@@ -68,26 +69,18 @@ function Search({ mobile }: Props) {
 
     //Setting the filter based on the input
     if (list === "q") {
-      console.log(input);
       setFilter({ dietId: "", difficultyId: "", cuisineId: "", q: input });
-      
     } else if (list === "cuisineId" && cuisine) {
-      console.log(cuisine);
       setFilter({ q: "", dietId: "", difficultyId: "", cuisineId: cuisine.id });
-
     } else if (list === "difficultyId" && difficulty) {
-      console.log(difficulty);
       setFilter({
         q: "",
         dietId: "",
         cuisineId: "",
         difficultyId: difficulty.id,
       });
-
     } else if (list === "dietId" && diet) {
-      console.log(diet);
       setFilter({ cuisineId: "", q: "", difficultyId: "", dietId: diet.id });
-
     }
     navigate("/search");
     setInput("");
