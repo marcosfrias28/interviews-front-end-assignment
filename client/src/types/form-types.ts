@@ -5,7 +5,7 @@ export interface ingredientType {
 
 export interface formTypes {
     name: string;
-    ingredients: string[];
+    ingredients: string[] | [];
     instructions: string;
     cuisineId: string;
     dietId: string;

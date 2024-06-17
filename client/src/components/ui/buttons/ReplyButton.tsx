@@ -1,3 +1,5 @@
+import React from 'react';
+
 function ReplyButton({onClick} : {onClick: () => void}) {
     return ( <button
         onClick={onClick}

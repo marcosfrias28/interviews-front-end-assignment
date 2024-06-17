@@ -14,6 +14,8 @@ import { GetFlag } from "../components/ui/FlagIcons";
 import useTitle from "../hooks/useTitle";
 import moment from "moment";
 import ReplyButton from "../components/ui/buttons/ReplyButton";
+import React from "react";
+
 
 const initialCommentState = {
   comment: "",

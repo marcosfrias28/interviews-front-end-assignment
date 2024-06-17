@@ -4,7 +4,7 @@ import {
   filterType,
   dietType,
   newRecipesType,
-} from "../types/api-types";
+} from "./api-types";
 
 export interface recipeStoreTypes {
     //State
