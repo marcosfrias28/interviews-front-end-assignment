@@ -39,7 +39,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    setCurrentRecipes(state => [...state, ...recipes, ]);
+    setCurrentRecipes(state => [...state, ...shuffle(recipes)]);
   }, [recipes]);
 
   return (
