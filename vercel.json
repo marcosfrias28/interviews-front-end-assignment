@@ -1,6 +1,7 @@
 
   {
     "version": 2,
+    "outputDirectory": "dist/client",
     "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/home", "destination": "/index.html" },
