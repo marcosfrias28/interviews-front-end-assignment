@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import useRecipeStore from "../../hooks/useRecipeStore";
 import SearchIcon from "../icons/search";
 import React from "react";
@@ -10,7 +9,6 @@ import {
   filterSearchType,
   filterType,
 } from "../../types/api-types";
-import Datalists from "./Datalists";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -61,24 +59,35 @@ function Search({ mobile }: Props) {
     const cuisine = cuisines.find(
       (cuisine: cuisineType) => cuisine.name === input
     );
+
     const difficulty = difficulties.find(
       (difficulty: difficultyType) => difficulty.name === input
     );
+
     const diet = diets.find((diet: dietType) => diet.name === input);
+
     //Setting the filter based on the input
     if (list === "q") {
+      console.log(input);
       setFilter({ dietId: "", difficultyId: "", cuisineId: "", q: input });
+      
     } else if (list === "cuisineId" && cuisine) {
+      console.log(cuisine);
       setFilter({ q: "", dietId: "", difficultyId: "", cuisineId: cuisine.id });
+
     } else if (list === "difficultyId" && difficulty) {
+      console.log(difficulty);
       setFilter({
         q: "",
         dietId: "",
         cuisineId: "",
         difficultyId: difficulty.id,
       });
+
     } else if (list === "dietId" && diet) {
+      console.log(diet);
       setFilter({ cuisineId: "", q: "", difficultyId: "", dietId: diet.id });
+
     }
     navigate("/search");
     setInput("");
