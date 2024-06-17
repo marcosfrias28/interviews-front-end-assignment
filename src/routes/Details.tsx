@@ -19,6 +19,15 @@ function DetailsPage() {
   const { cuisines, recipes } = useRecipeStore();
   const [currentRecipe, setCurrentRecipe] = useState<newRecipesType | {}>({});
   const [created, setCreated] = useState(false);
+  const [comment, setComment] = useState({
+    comment: "",
+    rating: 0,
+    date: new Date(),
+  });
+
+  function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    setComment({ ...comment, [e.target.name]: e.target.value });
+  }
 
   useEffect(() => {
     axios
@@ -37,22 +46,13 @@ function DetailsPage() {
 
   function handleSumbit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
-    const comment = form.querySelector("textarea") as HTMLTextAreaElement;
-    if (comment.value === "") {
-      toast.error("Comment can't be empty");
-      return;
-    }
+    
     axios
-      .post(`${API_URL}/recipes/${id}/comments`, {
-        comment: comment.value,
-        rating: 5,
-        date: new Date(),
-      })
+      .post(`${API_URL}/recipes/${id}/comments`, comment)
       .then(() => {
         setCreated(!created);
         toast.success("Comment added successfully");
-        comment.value = "";
+        setComment({ ...comment, comment: "" });
       })
       .catch(() => toast.error("Something went wrong"));
   }
@@ -230,14 +230,17 @@ function DetailsPage() {
             <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <label htmlFor="comment" className="sr-only">
                 Your comment
-              </label>
+              </label>q
               <textarea
                 id="comment"
+                onChange={handleChange}
                 rows={6}
                 className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                 placeholder="Leave a comment about this recipe..."
                 required
               ></textarea>
+              
+              <input onChange={handleChange} type="range" name="rating" max={5} min={1} defaultValue={1} />
             </div>
             <button
               type="submit"
