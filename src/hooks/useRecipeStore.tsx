@@ -1,4 +1,5 @@
-import { recipeStore, searchStore } from "../store/recipeStore";
+import { recipeStore } from "../store/recipeStore";
+import { searchStore } from "../store/searchStore";
 
 function useRecipeStore() {
   //States
