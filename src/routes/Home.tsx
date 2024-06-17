@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { API_URL, Layout } from "../Layout";
 import { toast } from "sonner";
-import { Link, useHref } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { newRecipesType } from "../types/api-types";
@@ -16,31 +16,29 @@ function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
 
-  //Local states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentRecipes, setCurrentRecipes] = useState<newRecipesType[] | []>([]);
-
   /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { loading, recipes, cuisines, finish, getRecipes, getCuisines } =
-    useRecipeStore();
-  // --------------------------------------------------------------------------
+ const { currentPage, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
+ useRecipeStore();
+ // --------------------------------------------------------------------------
 
-  // Fetching all recipes and cuisines on component mount
-  useEffect(() => {
-    getRecipes(currentPage, itemsPerPage);
-  }, [currentPage]);
+ useEffect(() => {
+  getCuisines();
+  if (currentPage === 1) getRecipes(currentPage, itemsPerPage);
+}, []);
 
-  useEffect(() => {
-    getCuisines();
-  }, []);
+useEffect(() => {
+  if (currentPage > 1) {
+    handleClick();
+  }
+}, [currentPage]);
 
-  useEffect(() => {
-    setCurrentRecipes(state => [...state, ...shuffle(recipes)]);
-  }, [recipes]);
+const handleClick = useCallback(()=> {
+  getRecipes(currentPage, itemsPerPage);
+}, [currentPage]);
 
   return (
     <Layout>
@@ -69,8 +67,8 @@ function HomePage() {
           </svg>
         </a>
         {!loading &&
-          currentRecipes?.length > 0 &&
-          currentRecipes?.map((recipe, i) => {
+          recipes?.length > 0 &&
+          recipes?.map((recipe, i) => {
             const {
               id,
               name,

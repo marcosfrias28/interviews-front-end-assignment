@@ -11,9 +11,11 @@ function useRecipeStore() {
   const searchResults = recipeStore((state) => state.searchResults);
   const loading = recipeStore((state) => state.loading);
   const finish = recipeStore((state) => state.finish);
+  const currentPage = recipeStore((state) => state.currentPage);
 
   //Setter functions
   const setList = recipeStore((state) => state.setList);
+  const setCurrentPage = recipeStore((state) => state.setCurrentPage);
   const setFilter = recipeStore((state) => state.setFilter);
   const setLoading = recipeStore((state) => state.setLoading);
   const setRecipes = recipeStore((state) => state.setRecipes);
@@ -31,7 +33,7 @@ function useRecipeStore() {
 
   return {
     list,
-    setList,
+    currentPage,
     filter,
     recipes,
     cuisines,
@@ -40,6 +42,8 @@ function useRecipeStore() {
     searchResults,
     loading,
     finish,
+    setCurrentPage,
+    setList,
     setFilter,
     setLoading,
     setRecipes,

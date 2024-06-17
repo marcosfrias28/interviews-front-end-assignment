@@ -6,46 +6,14 @@ import { toast } from "sonner";
 import {
   cuisineType,
   difficultyType,
-  filterType,
   dietType,
   newRecipesType,
 } from "../types/api-types";
-
-export interface recipeStoreTypes {
-  //State
-  list: "q" | "cuisineId" | "difficultyId" | "dietId";
-  filter: filterType;
-  recipes: newRecipesType[] | [];
-  cuisines: cuisineType[] | [];
-  difficulties: difficultyType[] | [];
-  diets: dietType[] | [];
-  searchResults: newRecipesType[] | [];
-  loading: boolean;
-  finish: boolean;
-
-  //Setter functions
-  setFilter: (filter: filterType) => void;
-  setFinish: (finish: boolean) => void;
-  setLoading: (loading: boolean) => void;
-  setRecipes: (recipes: newRecipesType[]) => void;
-  setCuisines: (cuisines: cuisineType[]) => void;
-  setDifficulties: (difficulties: difficultyType[]) => void;
-  setSearchResults: (searchResults: newRecipesType[]) => void;
-  setDiets: (diets: dietType[]) => void;
-  setList: (list: "q" | "cuisineId" | "difficultyId" | "dietId") => void;
-  //Getter functions
-  getRecipes: (_page: number, _limit?: number) => void;
-  getRecipeBy: (filter: filterType) => void;
-  getDifficulties: () => void;
-  getCuisines: () => void;
-  getDiets: () => void;
-}
+import { recipeStoreTypes } from "../types/recipe-store";
 
 export const recipeStore = create<recipeStoreTypes>()(
   devtools(
     (set, get) => ({
-      //State
-
       /*
         "q" string represents the search query for
         the recipes that you select on filters or search
@@ -54,7 +22,7 @@ export const recipeStore = create<recipeStoreTypes>()(
         and the others values are "cuisineId", "difficultyId", "dietId"
         */
       list: "q",
-
+      currentPage: 1,
       filter: { q: "", cuisineId: "", difficultyId: "", dietId: "" },
       recipes: [],
       cuisines: [],
@@ -66,6 +34,7 @@ export const recipeStore = create<recipeStoreTypes>()(
 
       //Setter functions
       setFilter: (filter) => set({ filter }, false, "set filter: " + filter),
+      setCurrentPage: (currentPage) => set({ currentPage }, false, "set page"),
       setList: (list) => set({ list }, false, "set list: " + list),
       setLoading: (loading: boolean) =>
         set({ loading }, false, "set loading: " + loading),
@@ -83,7 +52,7 @@ export const recipeStore = create<recipeStoreTypes>()(
 
       //Getter functions
 
-      /* 
+      /*
         Method to get recipes from the API
         it receives the page number and the limit of recipes
         and sets the recipes in the state,
@@ -103,23 +72,21 @@ export const recipeStore = create<recipeStoreTypes>()(
               setFinish(true);
               return;
             }
-
             resRecipes.data.forEach((recipe: newRecipesType) => {
               axios
                 .get(`${API_URL}/recipes/${recipe.id}/comments`)
                 .then((resComments) => {
                   recipe.comments = resComments.data;
                   newRecipes.push(recipe);
-                }).catch(() => toast.error('Error getting comments')).finally(() => {set((state) => ({
-                  ...state,
-                  recipes: [...newRecipes],
-                }));});
+                })
+                .catch(() => toast.error("Error getting comments"))
+                .finally(() => {
+                  setRecipes([...recipes, ...newRecipes]);
+                });
             });
           })
           .catch((e) => toast.error('Something went wrong getting "recipes"'))
-          .finally(() => {
-            setLoading(false);
-          });
+          .finally(() => setLoading(false));
       },
 
       getDiets: () => {
