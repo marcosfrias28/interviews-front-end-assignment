@@ -121,9 +121,10 @@ function AddRecipePage() {
       })
       .then((res) => {
         setId(res.data.id)
+        navigate(`/recipe/${res.data.id}`);
         toast.success(`Recipe Created`);
       })
-      .catch(() => toast.error("Error creating recipe.")).finally(() => navigate(`/details/${id}`));
+      .catch(() => toast.error("Error creating recipe."));
   };
 
   return (
@@ -137,7 +138,7 @@ function AddRecipePage() {
           <h2 className="mb-4 text-xl font-bold text-black">
             Add a new recipe
           </h2>
-          <form onSubmit={handleSubmit} action="#">
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
