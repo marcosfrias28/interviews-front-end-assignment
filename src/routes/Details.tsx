@@ -13,17 +13,25 @@ import DifficultyLabel from "../components/ui/DifficultyLabel";
 import { GetFlag } from "../components/ui/FlagIcons";
 import useTitle from "../hooks/useTitle";
 import moment from "moment";
+import ReplyButton from "../components/ui/buttons/ReplyButton";
+
+const initialCommentState = {
+  comment: "",
+  rating: 4,
+  date: new Date(),
+}
+
+function handleReply() {
+    const $textarea = document.querySelector("#comment") as HTMLTextAreaElement;
+    $textarea.focus();
+}
 
 function DetailsPage() {
   const { id } = useParams();
   const { cuisines, recipes } = useRecipeStore();
   const [currentRecipe, setCurrentRecipe] = useState<newRecipesType | {}>({});
   const [created, setCreated] = useState(false);
-  const [comment, setComment] = useState({
-    comment: "",
-    rating: 4,
-    date: new Date(),
-  });
+  const [comment, setComment] = useState(initialCommentState);
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     console.log(e.target.name, e.target.value);
@@ -53,8 +61,8 @@ function DetailsPage() {
       .then((res) => {
         console.log(res.data);
         setCreated(!created);
-        toast.success("Comment added successfully");
-        setComment({ ...comment, comment: "" });
+        toast.success("Thanks for your comment! It was created");
+        setComment(initialCommentState);
       })
       .catch(() => toast.error("Something went wrong"));
   }
@@ -76,11 +84,11 @@ function DetailsPage() {
       <h1 className="font-black flex-grow-0 pb-10 text-6xl font-lato text-center">
         {name}
       </h1>
-      <section className="bg-zinc-100 rounded-3xl shadow-2xl flex xl:flex-row flex-col mt-10 mb-44 w-full lg:w-[1550px] lg:h-[1000px] lg:max-h-[1000px] max-w-screen-2xl">
+      <section className="bg-zinc-100 rounded-3xl shadow-2xl flex xl:flex-row flex-col mt-10 mb-44 w-full lg:w-[1550px] lg:h-[1000px] lg:max-h-[1000px] min-w-full max-w-screen-2xl px-5">
         <article className="sm:px-4 lg:px-4 w-full h-fit">
           <div className="relative w-full rounded-lg h-full max-h-[800px] overflow-hidden mb-4">
             <img
-              className="h-full w-full object-cover object-center transition-all"
+              className="h-full w-full aspect-video object-cover object-center transition-all"
               src={`${API_URL}${image}`}
               alt={name}
             />
@@ -117,7 +125,7 @@ function DetailsPage() {
             </div>
           </div>
         </article>
-        <section className="bg-white rounded-b-3xl rounded-tr-3xl dark:bg-gray-900 py-8 px-10 w-full">
+        <section className="bg-white rounded-b-3xl rounded-tr-3xl dark:bg-gray-900 py-4 px-5 md:px-10 md:py-8 w-full">
           <div className="max-w-2xl h-full max-h-[500px] mx-auto px-4 overflow-scroll overflow-x-hidden">
             {comments?.length > 0 && comments.map(comment => (
               <article className="p-6 mb-3 text-base bg-white border-b border-gray-200 dark:border-gray-700 dark:bg-gray-900">
@@ -144,27 +152,7 @@ function DetailsPage() {
                 {comment.comment}
               </p>
               <div className="flex items-center mt-4 space-x-4">
-                <button
-                  type="button"
-                  className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium"
-                >
-                  <svg
-                    className="mr-1.5 w-3.5 h-3.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 18"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
-                    />
-                  </svg>
-                  Reply
-                </button>
+                <ReplyButton onClick={handleReply} />
               </div>
             </article>
 
