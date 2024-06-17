@@ -6,6 +6,7 @@ import useTitle from "../hooks/useTitle";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { newRecipesType } from "../types/api-types";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
+import { recipeStoreTypes } from "../types/recipe-store";
 
 // Function to see random positions of the recipes every time the page is loaded
 const shuffle = (arr: newRecipesType[]) =>
@@ -15,35 +16,45 @@ const itemsPerPage = 9;
 function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
+  const [currentRecipes, setCurrentRecipes] = useState<newRecipesType[] | []>([]);
 
   /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
- const { currentPage, setFinish, setRecipes, setCurrentPage, loading, recipes, cuisines, finish, getRecipes, getCuisines } =
- useRecipeStore();
- // --------------------------------------------------------------------------
+  const {
+    currentPage,
+    setFinish,
+    setRecipes,
+    setCurrentPage,
+    loading,
+    recipes,
+    cuisines,
+    finish,
+    getRecipes,
+    getCuisines,
+  } = useRecipeStore();
+  // --------------------------------------------------------------------------
 
- useEffect(() => {
-  setRecipes([])
-  setCurrentPage(1);
-  setFinish(false);
-  getCuisines();
-  getRecipes(currentPage, itemsPerPage);
-}, []);
-
-useEffect(() => {
-  if (currentPage > 1) {
-    handleClick();
-  } else if (finish){
+  useEffect(() => {
+    setRecipes([]);
     setCurrentPage(1);
-  }
-}, [currentPage]);
+    setFinish(false);
+    getCuisines();
+    getRecipes(currentPage, itemsPerPage);
+    setCurrentRecipes(prevState => [ ...prevState, ...shuffle(recipes)]);
+  }, []);
 
-const handleClick = useCallback(()=> {
-  getRecipes(currentPage, itemsPerPage);
-}, [currentPage]);
+  const handleClick = useCallback(() => {
+    if (currentPage > 1) {
+      handleClick();
+    } else if (finish) {
+      setCurrentPage(1);
+    }
+    getRecipes(currentPage, itemsPerPage);
+    setCurrentRecipes(prevState => [ ...prevState, ...shuffle(recipes)]);
+  }, [currentPage]);
 
   return (
     <Layout>
@@ -72,21 +83,18 @@ const handleClick = useCallback(()=> {
           </svg>
         </a>
         {!loading &&
-          recipes?.length > 0 &&
-          recipes?.map((recipe, i) => {
-            const {
-              id,
-              name,
-              cuisineId,
-              comments,
-              difficultyId,
-              image,
-            } = recipe;
+          currentRecipes?.length > 0 &&
+          currentRecipes?.map((recipe, i) => {
+            const { id, name, cuisineId, comments, difficultyId, image } =
+              recipe;
             let stars = 0;
             if (comments?.length > 0) {
-              const sum = comments.reduce((acc, comment) => acc + comment.rating, 0);
+              const sum = comments.reduce(
+                (acc, comment) => acc + comment.rating,
+                0
+              );
               stars = Math.floor(sum / comments.length);
-             }
+            }
             const cuisine = cuisines?.find(
               (cuisine) => cuisine.id === cuisineId
             );
@@ -99,7 +107,7 @@ const handleClick = useCallback(()=> {
                 <div className="w-full rounded-t-3xl h-96 overflow-hidden mb-4 bg-blac transition-all">
                   <Link to={`/recipes/${id}`}>
                     <img
-                    loading="lazy"
+                      loading="lazy"
                       className="h-full w-full object-cover object-center hover:scale-105 transition-all"
                       src={`${API_URL}${image}`}
                       alt={name}
@@ -117,17 +125,28 @@ const handleClick = useCallback(()=> {
                   difficultyId={difficultyId}
                 />
 
-              <section className="flex gap-4 items-center justify-center">
-              <Link to={`/recipes/${id}#comments`}>{`(${comments?.length > 0 ? comments?.length : '0'})`} Comments</Link>
-                <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                    <svg key={i} className={`w-4 h-4 ${stars >= i + 1 ? 'text-yellow-300' : 'text-zinc-500'} ms-1`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                </svg>
-                  )
-                )}
-                </div>
-              </section>
+                <section className="flex gap-4 items-center justify-center">
+                  <Link to={`/recipes/${id}#comments`}>
+                    {`(${comments?.length > 0 ? comments?.length : "0"})`}{" "}
+                    Comments
+                  </Link>
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className={`w-4 h-4 ${
+                          stars >= i + 1 ? "text-yellow-300" : "text-zinc-500"
+                        } ms-1`}
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 22 20"
+                      >
+                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                      </svg>
+                    ))}
+                  </div>
+                </section>
 
                 <Link className="" to={`/recipes/${id}`}>
                   <div className="flex flex-row items-center justify-center group text-center bg-[#fc7c4ab8] py-2 text-medium hover:text-white transition-colors text-black font-medium mt-5">
