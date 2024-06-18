@@ -20,22 +20,6 @@ function getStars(comments: commentType[], id: string, name: string) {
   return stars;
 }
 
-const getRecipes = async (_page: number) => {
-  const resRecipes = await axios.get(
-    `${API_URL}/recipes?_page=${_page}&_per_page=8`
-  );
-  const resComments = await axios.get(`${API_URL}/comments`);
-  const recipes = resRecipes.data.map((recipe: newRecipesType) => {
-    const comments = resComments.data?.filter(
-      (comment: commentType) => comment.recipeId === recipe.id
-    );
-    recipe.comments = comments;
-    return recipe;
-  });
-
-  return recipes;
-};
-
 function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
@@ -45,7 +29,7 @@ function HomePage() {
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { setFinish, cuisines, finish } = useRecipeStore();
+  const { getRecipes, cuisines } = useRecipeStore();
   // --------------------------------------------------------------------------
 
   const { data, fetchNextPage, isFetched, isFetching, isError, hasNextPage } =
