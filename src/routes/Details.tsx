@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { useEffect, useState } from "react";
-import { API_URL, Layout } from "../Layout";
+import { Layout } from "../Layout";
 import axios from "axios";
 import {
   cuisineType,
@@ -14,6 +14,8 @@ import { GetFlag } from "../components/ui/FlagIcons";
 import useTitle from "../hooks/useTitle";
 import moment from "moment";
 import ReplyButton from "../components/ui/buttons/ReplyButton";
+import { getRecipeById } from "../utils/getRecipeById";
+import { API_URL } from "../utils/API_URL";
 
 const initialCommentState = {
   comment: "",
@@ -28,7 +30,7 @@ function handleReply() {
 
 function DetailsPage() {
   const { id } = useParams();
-  const { cuisines, recipes } = useRecipeStore();
+  const { cuisines } = useRecipeStore();
   const [currentRecipe, setCurrentRecipe] = useState<newRecipesType | {}>({});
   const [created, setCreated] = useState(false);
   const [comment, setComment] = useState(initialCommentState);
@@ -42,18 +44,11 @@ function DetailsPage() {
   }
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/recipes/${id}`)
-      .then((resRecipe) => {
-        axios
-          .get(`${API_URL}/recipes/${id}/comments`)
-          .then((resComments) => {
-            resRecipe.data.comments = resComments.data;
-          })
-          .catch((e) => toast.error('Something went wrong getting "comments"'))
-          .finally(() => setCurrentRecipe(resRecipe.data));
-      })
-      .catch((e) => toast.error("Something went wrong"));
+    async function getData () {
+      const recipe = await getRecipeById(id as string)
+      setCurrentRecipe(recipe)
+    }
+    getData()
   }, [created]);
 
   function handleSumbit(e: React.FormEvent<HTMLFormElement>) {

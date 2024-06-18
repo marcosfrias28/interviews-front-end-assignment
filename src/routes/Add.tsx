@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_URL, Layout } from "../Layout";
+import { API_URL } from "../utils/API_URL"
 import { formTypes, ingredientType } from "../types/form-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useRecipeStore from "../hooks/useRecipeStore";
 import useTitle from "../hooks/useTitle";
 import { cuisineType, dietType, difficultyType } from "../types/api-types";
+import { Layout } from "../Layout";
 
 function AddRecipePage() {
   const navigate = useNavigate();

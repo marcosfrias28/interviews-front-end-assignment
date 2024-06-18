@@ -5,7 +5,6 @@ import Logo from "./components/icons/Logo";
 import Search from "./components/ui/Search";
 import React from "react";
 
-export const API_URL = 'https://recipeapi.up.railway.app' || 'http://localhost:8080';
 
 export function Layout(props: { children: React.ReactNode }) { 
   return (

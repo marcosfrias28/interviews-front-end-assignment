@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useRecipeStore from "../../hooks/useRecipeStore";
+import useRecipeStore from "../../hooks/useRecipeStore"
 import SearchIcon from "../icons/search";
 import React from "react";
 import {
@@ -36,7 +36,6 @@ function Search({ mobile }: Props) {
     getDifficulties,
     filter,
     setFilter,
-    getRecipeBy,
     searchResults,
     getCuisines,
     cuisines,

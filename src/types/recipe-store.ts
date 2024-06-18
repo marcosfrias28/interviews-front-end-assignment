@@ -12,18 +12,13 @@ export interface recipeStoreTypes {
     cuisines: cuisineType[] | [];
     difficulties: difficultyType[] | [];
     diets: dietType[] | [];
-    loading: boolean;
-    finish: boolean;
-    currentPage: number;
-  
+
     //Setter functions
-    setCurrentPage: (currentPage: number) => void;
-    setFinish: (finish: boolean) => void;
-    setLoading: (loading: boolean) => void;
     setRecipes: (recipes: newRecipesType[]) => void;
     setCuisines: (cuisines: cuisineType[]) => void;
     setDifficulties: (difficulties: difficultyType[]) => void;
     setDiets: (diets: dietType[]) => void;
+
     //Getter functions
     getDifficulties: () => void;
     getCuisines: () => void;

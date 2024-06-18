@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { API_URL, Layout } from "../Layout";
+import { Layout } from "../Layout";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
@@ -8,6 +8,8 @@ import { commentType, newRecipesType } from "../types/api-types";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { getRecipes } from "../utils/getRecipes";
+import { API_URL } from "../utils/API_URL";
 
 // Function to see random positions of the recipes every time the page is loaded
 const shuffle = (arr: newRecipesType[]) =>
@@ -29,7 +31,7 @@ function HomePage() {
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
   --------------------------------------------------------------------------
   */
-  const { getRecipes, cuisines } = useRecipeStore();
+  const {  cuisines } = useRecipeStore();
   // --------------------------------------------------------------------------
 
   const { data, fetchNextPage, isFetched, isFetching, isError, hasNextPage } =

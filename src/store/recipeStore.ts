@@ -1,6 +1,6 @@
 import axios from "axios";
 import { create } from "zustand";
-import { API_URL } from "../Layout";
+import { API_URL } from "../utils/API_URL";
 import { toast } from "sonner";
 import {
   cuisineType,
@@ -12,19 +12,12 @@ import {
 import { recipeStoreTypes } from "../types/recipe-store";
 
 export const recipeStore = create<recipeStoreTypes>()((set, get) => ({
-  currentPage: 1,
   recipes: [],
   cuisines: [],
   difficulties: [],
   diets: [],
 
-  loading: true,
-  finish: false,
-
   //Setter functions
-  setCurrentPage: (currentPage) => set({ currentPage }),
-  setLoading: (loading: boolean) => set({ loading }),
-  setFinish: (finish: boolean) => set({ finish }),
   setRecipes: (recipes: newRecipesType[]) => set({ recipes }),
   setDifficulties: (difficulties: difficultyType[]) => set({ difficulties }),
   setDiets: (diets: dietType[]) => set({ diets }),
@@ -58,12 +51,10 @@ export const recipeStore = create<recipeStoreTypes>()((set, get) => ({
   },
 
   getCuisines: () => {
-    const { setCuisines, setLoading } = get();
-    setLoading(true);
+    const { setCuisines } = get();
     axios
       .get(`${API_URL}/cuisines`)
       .then(({ data }) => setCuisines(data))
       .catch((e) => toast.error('Something went wrong getting "cuisines"'))
-      .finally(() => setLoading(false));
   },
 }));

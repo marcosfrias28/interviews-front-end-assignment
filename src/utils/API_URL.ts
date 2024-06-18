@@ -1,0 +1,1 @@
+export const API_URL = 'https://recipeapi.up.railway.app' || 'http://localhost:8080';

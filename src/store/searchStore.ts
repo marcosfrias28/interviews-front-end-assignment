@@ -1,13 +1,13 @@
 import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import { API_URL } from "../Layout";
 import { toast } from "sonner";
 import {
 
   newRecipesType,
 } from "../types/api-types";
 import { searchStoreTypes } from "../types/recipe-store";
+import { API_URL } from "../utils/API_URL";
 
 
 

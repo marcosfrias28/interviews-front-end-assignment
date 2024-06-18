@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import useRecipeStore from "../hooks/useRecipeStore";
-import { API_URL, Layout } from "../Layout";
+import { Layout } from "../Layout";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { GetFlag } from "../components/ui/FlagIcons";
 import DifficultyLabel from "../components/ui/DifficultyLabel";
 import useTitle from "../hooks/useTitle";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
+import { API_URL } from "../utils/API_URL";
 
 function SearchPage() {
   // Setting the title of the page with simple custom hook
