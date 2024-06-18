@@ -184,7 +184,7 @@ function HomePage() {
       </div>
       <div
         className={`${
-          !hasNextPage ? "" : ""
+          !hasNextPage ? "pointer-events-none" : ""
         } flex flex-row justify-center items-center mb-20`}
       >
         <button
