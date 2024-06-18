@@ -77,7 +77,8 @@ To run server, run the following command
 
 ## Optimizations
 
-What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+- Tanstack React Query useInfiniteQuery hook for pagination
+- Gkobal states and persistent states by zustand
 
 
 ## Screenshots
