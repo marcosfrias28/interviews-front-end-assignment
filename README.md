@@ -67,18 +67,18 @@ To run server, run the following command
 ### Tech Stack
 
 **Client:** 
+
 - React
-- React Router
 - Typescript
-- Global State with Zustand
-- Style with tailwindcss
-- Axios for API Calls
+- Tailwindcss
 
 
 ## Optimizations
 
+- Axios for better error handling
+- SPA React Router
 - Tanstack React Query useInfiniteQuery hook for pagination
-- Gkobal states and persistent states by zustand
+- Global states and persistent states by zustand
 
 
 ## Screenshots
