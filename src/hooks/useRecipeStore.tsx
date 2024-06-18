@@ -41,7 +41,6 @@ function useRecipeStore() {
     setDifficulties,
     setSearchResults,
     setDiets,
-    getRecipes,
     getRecipeBy,
     getDifficulties,
     getCuisines,
