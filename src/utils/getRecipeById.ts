@@ -9,7 +9,7 @@ export const getRecipeById: getRecipesType = async (id) => {
       `${API_URL}/recipes/${id}`
     );
     const resComments = await axios.get(`${API_URL}/recipes/${id}/comments`);
-    resRecipes.data.comments = resComments;
+    resRecipes.data.comments = resComments.data as commentType[];
 
     return resRecipes.data;
   }

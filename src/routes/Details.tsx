@@ -74,6 +74,9 @@ function DetailsPage() {
     image,
   } = currentRecipe as unknown as newRecipesType;
 
+  console.log(comments);
+  
+
   useTitle(name);
 
   return (
