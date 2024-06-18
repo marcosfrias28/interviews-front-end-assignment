@@ -7,6 +7,7 @@ import {
   difficultyType,
   dietType,
   newRecipesType,
+  commentType,
 } from "../types/api-types";
 import { recipeStoreTypes } from "../types/recipe-store";
 
@@ -38,35 +39,6 @@ export const recipeStore = create<recipeStoreTypes>()((set, get) => ({
 
         retrieves the comments and ratings for each recipe and sets them in the state
         */
-  getRecipes: async (_page, _limit) => {
-    if (!_limit) _limit = 100;
-    let newRecipes: newRecipesType[] = [];
-    const { setRecipes, recipes, setFinish, setLoading } = get();
-    setLoading(true);
-    setFinish(false);
-    axios
-      .get(`${API_URL}/recipes?_page=${_page}&_limit=${_limit}`)
-      .then((resRecipes) => {
-        if (resRecipes.data.length === 0) {
-          setFinish(true);
-          return;
-        }
-        resRecipes.data.forEach((recipe: newRecipesType) => {
-          axios
-            .get(`${API_URL}/recipes/${recipe.id}/comments`)
-            .then((resComments) => {
-              recipe.comments = resComments.data;
-              newRecipes.push(recipe);
-            })
-            .catch(() => toast.error("Error getting comments"))
-            .finally(() => {
-              setRecipes([...recipes, ...newRecipes]);
-            });
-        });
-      })
-      .catch((e) => toast.error('Something went wrong getting "recipes"'))
-      .finally(() => setLoading(false));
-  },
 
   getDiets: () => {
     const { setDiets } = get();

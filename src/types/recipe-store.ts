@@ -25,7 +25,6 @@ export interface recipeStoreTypes {
     setDifficulties: (difficulties: difficultyType[]) => void;
     setDiets: (diets: dietType[]) => void;
     //Getter functions
-    getRecipes: (_page: number, _limit?: number) => void;
     getDifficulties: () => void;
     getCuisines: () => void;
     getDiets: () => void;
