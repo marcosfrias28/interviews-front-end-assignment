@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
 import { Layout } from "../Layout";
-import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import useRecipeStore from "../hooks/useRecipeStore";
 import { commentType, newRecipesType } from "../types/api-types";
 import DifficultyBlock from "../components/ui/DifficultyBlock";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { getRecipes } from "../utils/getRecipes";
 import { API_URL } from "../utils/API_URL";
 
@@ -25,7 +22,6 @@ function getStars(comments: commentType[], id: string, name: string) {
 function HomePage() {
   // Setting the title of the page with simple custom hook
   useTitle("Home");
-  const [currentPage, setCurrentPage] = useState(0);
   /*
   Getting all necessary states and functions from the store using zustand
   IMPORTANT NOT GETTING ALL THE STATE AT ONCE, JUST THE ONES NEEDED TO AVOID RE-RENDERING
@@ -34,7 +30,7 @@ function HomePage() {
   const {  cuisines } = useRecipeStore();
   // --------------------------------------------------------------------------
 
-  const { data, fetchNextPage, isFetched, isFetching, isError, hasNextPage } =
+  const { data, fetchNextPage, isFetched, isFetching, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["recipes"],
       queryFn: async ({ pageParam = 0 }) => getRecipes(pageParam),
@@ -163,7 +159,6 @@ function HomePage() {
               );
             })
           )}
-        ;
       </section>
       <div className="text-center font-bold animate-bounce flex flex-col my-20">
         {!hasNextPage && !isFetching && <span>No more recipes found...</span>}

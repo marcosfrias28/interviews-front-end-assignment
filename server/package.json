@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "json-server": "^0.17.4",
     "multer": "^1.4.5-lts.1"

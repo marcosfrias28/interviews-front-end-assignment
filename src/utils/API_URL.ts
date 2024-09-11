@@ -1,1 +1,1 @@
-export const API_URL = 'https://recipeapi.up.railway.app' || 'http://localhost:8080';
+export const API_URL = 'https://recipe-api-v267.onrender.com' || 'http://localhost:8080';

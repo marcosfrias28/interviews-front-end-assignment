@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 // Set up JSON Server middleware
 const router = jsonServer.router('db.json');
